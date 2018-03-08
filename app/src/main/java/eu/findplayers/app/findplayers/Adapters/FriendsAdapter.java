@@ -1,0 +1,93 @@
+package eu.findplayers.app.findplayers.Adapters;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+import eu.findplayers.app.findplayers.Data.FriendsData;
+import eu.findplayers.app.findplayers.MessagesActivity;
+import eu.findplayers.app.findplayers.R;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
+/**
+ * Created by DOMA on 27.2.2018.
+ */
+
+public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder>{
+
+    private static Context context;
+    private List<FriendsData> friendsData;
+
+    public FriendsAdapter(Context context, List<FriendsData> friendsData) {
+
+        this.context = context;
+        this.friendsData = friendsData;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list_card, parent, false);
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(FriendsAdapter.ViewHolder holder, final int position) {
+
+        holder.username.setText(friendsData.get(position).getUsername());
+        Picasso.with(context).load(friendsData.get(position).getProfile_image()).transform(new CropCircleTransformation()).into(holder.imageView);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(context, friends_data.get(position).getId() + "_"+ friends_data.get(position).getLogged_id(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, MessagesActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("friend_id", friendsData.get(position).getFriend_id());
+                bundle.putInt("logged_id", friendsData.get(position).getLogged_id());
+                bundle.putString("friend_name", friendsData.get(position).getUsername());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+
+            }
+        });
+
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, friendsData.get(position).getUsername(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return friendsData.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+
+        public ImageView imageView;
+        public TextView username;
+
+        public ViewHolder(final View itemView)
+        {
+            super(itemView);
+            username = (TextView) itemView.findViewById(R.id.username);
+            imageView = (ImageView) itemView.findViewById(R.id.image);
+
+        }
+    }
+}

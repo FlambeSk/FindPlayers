@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Find Players</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="remove_edit">Remove Game From Library</string>
+    <string name="add_edit">Add Game to Library</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+</resources>
