@@ -22,12 +22,13 @@
 
             <ImageView
                 android:id="@+id/imageNotification"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:scaleType="centerCrop"
+                android:layout_margin="20dp"
                />
 
             <TextView
@@ -35,19 +36,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="107dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/imageNotification"
+                android:layout_alignStart="@+id/time"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textSize="17sp"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/fromTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textView2"
+                android:layout_alignBottom="@+id/textView2"
+                android:layout_toEndOf="@+id/textView2"
+                android:layout_marginLeft="10dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imageNotification"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@+id/imageNotification"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/aboutTextView"
                 android:layout_below="@+id/aboutTextView"
-                android:layout_marginTop="10dp"
-                android:text="TextView" />
+                android:layout_marginTop="7dp"
+                android:text="From: " />
 
         </RelativeLayout>
 

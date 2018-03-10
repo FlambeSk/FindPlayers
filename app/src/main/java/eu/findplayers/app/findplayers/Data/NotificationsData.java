@@ -9,16 +9,16 @@ import java.util.Map;
 public class NotificationsData {
 
     private int from_id, to_id;
-    private String about, fromName, notification_data;
-    private Map timestamp;
+    private String about, fromName, notification_data, image, timestamp;
     private boolean isReaded;
 
-    public NotificationsData(int from_id, int to_id, String about, String fromName, String notification_data, Map timestamp, boolean isReaded) {
+    public NotificationsData(int from_id, int to_id, String about, String fromName, String notification_data,String image, String timestamp, boolean isReaded) {
         this.from_id = from_id;
         this.to_id = to_id;
         this.about = about;
         this.fromName = fromName;
         this.notification_data = notification_data;
+        this.image = image;
         this.timestamp = timestamp;
         this.isReaded = isReaded;
     }
@@ -63,11 +63,19 @@ public class NotificationsData {
         this.notification_data = notification_data;
     }
 
-    public Map getTimestamp() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Map timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

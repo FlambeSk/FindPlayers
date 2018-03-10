@@ -33,7 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     JSONObject object;
-    String  friend_name, text, notification;
+    String  friend_name, text, notification, image;
     Integer from_id, to_id;
     String title;
 
@@ -53,11 +53,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 friend_name = object.getString("friend_name");
                 text = object.getString("text");
                 notification = object.getString("notification");
+                image = object.getString("image");
                 if (notification.equals("friendRequest"))
                 {
-                    sendNotification(title, friend_name, from_id, to_id, "FriendRequest", "FriendRequest");
+                    sendNotification(title, friend_name, from_id, to_id, "FriendRequest", "FriendRequest", image);
                 } else if (notification.equals("message")){
-                    sendNotification(title, text,from_id, to_id, friend_name, "message");
+                    sendNotification(title, text,from_id, to_id, friend_name, "message", image);
                 }
 
 
@@ -76,7 +77,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 to_id = object.getInt("to_id");
                 from_id = object.getInt("from_id");
                 friend_name = object.getString("friend_name");
-                sendNotification(title, remoteMessage.getNotification().getBody(),from_id, to_id, friend_name, "message");
+                sendNotification(title, remoteMessage.getNotification().getBody(),from_id, to_id, friend_name, "message", image);
 
             } catch (JSONException e){
                 e.printStackTrace();
@@ -90,7 +91,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void sendNotification(String title, String body,Integer from_id, Integer to_id, String friend_name, String about)
+    private void sendNotification(String title, String body,Integer from_id, Integer to_id, String friend_name, String about, String image)
     {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
@@ -113,6 +114,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         bundle.putInt("friend_id", from_id);
         bundle.putInt("logged_id", to_id);
         bundle.putString("about", about);
+        bundle.putString("image", image);
         intent.putExtras(bundle);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

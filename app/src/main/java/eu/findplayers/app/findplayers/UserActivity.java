@@ -56,7 +56,7 @@ public class UserActivity extends AppCompatActivity {
     private ProfileGamesAdapter adapter;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     Bundle bundle;
-    String loggedName;
+    String loggedName, loggedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class UserActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         logged_id = prefs.getInt("login_id", 0);//"No name defined" is the default value.
         loggedName = prefs.getString("login_name", "");
+        loggedImage = prefs.getString("login_image", "");
 
 
         bundle = getIntent().getExtras();
@@ -318,6 +319,7 @@ public class UserActivity extends AppCompatActivity {
                 params.put("friend_name", friend_name);
                 params.put("body", body);
                 params.put("notification", "friendRequest");
+                params.put("image", loggedImage);
 
                 return params;
             }
@@ -332,7 +334,10 @@ public class UserActivity extends AppCompatActivity {
 
         String keys = myRef.push().getKey();
 
-        NotificationsData notificationsData = new NotificationsData(id_from, id_to, "Friend Request", from_name, keys, ServerValue.TIMESTAMP, false);
+        Map time = ServerValue.TIMESTAMP;
+        String timestamp = time.toString();
+
+        NotificationsData notificationsData = new NotificationsData(id_from, id_to, "Friend Request", from_name, keys, loggedImage ,timestamp, false);
 
         String idTo=id_to.toString();
         myRef.child(idTo).child(keys).setValue(notificationsData);

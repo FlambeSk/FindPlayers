@@ -1,8 +1,10 @@
 package eu.findplayers.app.findplayers.Adapters;
 
 import android.content.Context;
+import android.renderscript.Long2;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +36,7 @@ import eu.findplayers.app.findplayers.Data.NotificationsData;
 import eu.findplayers.app.findplayers.ForLogin.MySingleton;
 import eu.findplayers.app.findplayers.R;
 import eu.findplayers.app.findplayers.UserActivity;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 /**
  * Created by DOMA on 6.3.2018.
@@ -61,10 +66,18 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
         final int itemPos = position;
         final NotificationsData notificationsData = my_data.get(position);
+        String TimeHelp;
          holder.aboutTextView.setText(my_data.get(position).getAbout());
         holder.fromTextView.setText(my_data.get(position).getFromName());
         holder.from_id = my_data.get(position).getFrom_id();
         holder.to_id = my_data.get(position).getTo_id();
+        Picasso.with(context).load(my_data.get(position).getImage()).transform(new CropCircleTransformation()).into(holder.imageNotification);
+        //holder.time.setText(my_data.get(position).getTimestamp());
+        TimeHelp = my_data.get(position).getTimestamp();
+        Long TimeHelpInt = Long.valueOf(TimeHelp);
+
+        CharSequence a = DateUtils.getRelativeDateTimeString(context,TimeHelpInt,DateUtils.SECOND_IN_MILLIS,DateUtils.DAY_IN_MILLIS, 0);
+        holder.time.setText(a);
 
             holder.fromTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -200,8 +213,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView aboutTextView;
-        public TextView fromTextView;
+        public TextView fromTextView, time;
         public Integer from_id,to_id;
+        public ImageView imageNotification;
 
 
 
@@ -210,6 +224,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             super(itemView);
             aboutTextView = (TextView) itemView.findViewById(R.id.aboutTextView);
             fromTextView = (TextView) itemView.findViewById(R.id.fromTextView);
+            imageNotification = (ImageView) itemView.findViewById(R.id.imageNotification);
+            time = (TextView) itemView.findViewById(R.id.time);
 
 
         }

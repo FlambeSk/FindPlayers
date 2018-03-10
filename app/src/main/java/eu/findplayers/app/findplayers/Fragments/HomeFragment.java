@@ -72,6 +72,7 @@ public class HomeFragment extends Fragment {
         editor = this.getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit();
         editor.putInt("login_id", bundle.getInt("id"));
         editor.putString("login_name", bundle.getString("name"));
+        editor.putString("login_image", bundle.getString("profile_image"));
         editor.apply();
 
         Picasso.with(getContext()).load(bundle.getString("profile_image")).transform(new CropCircleTransformation()).into(profile_image);
