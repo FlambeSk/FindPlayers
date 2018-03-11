@@ -42,15 +42,7 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
 
-    TextView name,email, id;
     ImageView profile_image;
-    String image, new_news, logged_id;
-    Integer int_id;
-    EditText send_news;
-    private RecyclerView recyclerView;
-    private GridLayoutManager gridLayoutManager;
-   // private ProfileGamesAdapter adapter;
-    private List<MyData> data_list;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     SharedPreferences.Editor editor;
 
