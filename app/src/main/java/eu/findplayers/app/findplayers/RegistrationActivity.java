@@ -59,7 +59,7 @@ public class RegistrationActivity extends AppCompatActivity {
         spinner_countries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                country_id = String.valueOf(country_code[i]);;
+                country_id = String.valueOf(country_code[i]);
             }
 
             @Override
