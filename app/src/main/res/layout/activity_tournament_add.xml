@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/tools"
-    tools:context="eu.findplayers.app.findplayers.TournamentAddActivity">
+    tools:context="eu.findplayers.app.findplayers.TournamentAddActivity"
+    android:background="#C3C3C3">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,24 +17,65 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:orientation="vertical">
+                android:layout_marginTop="100dp"
+                android:orientation="vertical"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/rounded_card"
+                android:padding="20dp">
+                <EditText
+                    android:id="@+id/tournament_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:ems="10"
+                    android:background="@android:color/transparent"
+                    android:drawablePadding="8dp"
+                    android:padding="8dp"
+                    android:hint="Tournament name"
+                    android:textColorHint="#000000"
+                    android:maxLines="1"
+                    android:layout_marginTop="40dp"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/gameList"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="40dp"
                     android:drawablePadding="8dp"
                     android:padding="8dp"
                     >
 
                 </Spinner>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/game"
                     android:textSize="20sp"/>
+                <EditText
+                    android:id="@+id/players_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:background="@android:color/transparent"
+                    android:drawablePadding="8dp"
+                    android:padding="8dp"
+                    android:hint="Number of players"
+                    android:textColorHint="#000000"
+                    android:maxLines="1"
+                    android:layout_marginTop="40dp"
+                    />
 
             </LinearLayout>
 

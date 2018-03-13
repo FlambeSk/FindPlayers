@@ -32,11 +32,11 @@ import eu.findplayers.app.findplayers.ForLogin.MySingleton;
 public class TournamentAddActivity extends AppCompatActivity {
 
     public static final String JSON_ARRAY = "result";
-    public static final String EmployeeName  = "name";
-    public static final String EmployeeNamearray = "name";
+    public static final String gameId  = "id";
+    public static final String gameName = "name";
     private JSONArray result;
     Spinner spinner;
-    String  EmpName;
+    String  game_id;
     private ArrayList<String> arrayList;
     TextView gameText;
 
@@ -54,7 +54,9 @@ public class TournamentAddActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Setting the values to textviews for a selected item
-              //  gameText.setText(getemployeeName(position));
+                //gameText.setText(getGameId(position));
+                game_id = getGameId(position);
+                Toast.makeText(TournamentAddActivity.this, game_id, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -115,13 +117,26 @@ public class TournamentAddActivity extends AppCompatActivity {
         for (int i = 0; i < j.length(); i++) {
             try {
                 JSONObject json = j.getJSONObject(i);
-                arrayList.add(json.getString(EmployeeNamearray));
+                arrayList.add(json.getString(gameName));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         // arrayList.add(0,"Select Employee");
         spinner.setAdapter(new ArrayAdapter<String>(TournamentAddActivity.this, android.R.layout.simple_spinner_dropdown_item, arrayList));
+    }
+
+    private String getGameId(int position) {
+        String ID = "";
+        try{
+            JSONObject json = result.getJSONObject(position);
+            ID = json.getString(gameId);
+
+        }  catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //Returning the name
+        return ID;
     }
 
 }
