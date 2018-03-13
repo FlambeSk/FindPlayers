@@ -1,5 +1,6 @@
 package eu.findplayers.app.findplayers;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,44 +31,42 @@ import eu.findplayers.app.findplayers.ForLogin.MySingleton;
 
 public class TournamentAddActivity extends AppCompatActivity {
 
-    Spinner gameList;
-    TextView gametext;
-    String java = "ahoj,gefo";
-    ArrayList<String> list;
-    ArrayList<String> listItem = new ArrayList<>();
-    ArrayAdapter<String> adapter;
-    String[] games ;
-    List<String> bbb = new ArrayList<String>();
-    String[] countries = new String[]{"Afghanistan","ÅlandIslands","Albania","Algeria","AmericanSamoa","Andorra","Angola","Anguilla","Antarctica","AntiguaandBarbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia,PlurinationalStateof","Bonaire,SintEustatiusandSaba","BosniaandHerzegovina","Botswana","BouvetIsland","Brazil","BritishIndianOceanTerritory","BruneiDarussalam","Bulgaria","BurkinaFaso","Burundi","Cambodia","Cameroon","Canada","CapeVerde","CaymanIslands","CentralAfricanRepublic","Chad","Chile","China","ChristmasIsland","Cocos(Keeling)Islands","Colombia","Comoros","Congo","Congo,theDemocraticRepublicofthe","CookIslands","CostaRica","Côted'Ivoire","Croatia","Cuba","Curaçao","Cyprus","CzechRepublic","Denmark","Djibouti","Dominica","DominicanRepublic","Ecuador","Egypt","ElSalvador","EquatorialGuinea","Eritrea","Estonia","Ethiopia","FalklandIslands(Malvinas)","FaroeIslands","Fiji","Finland","France","FrenchGuiana","FrenchPolynesia","FrenchSouthernTerritories","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guernsey","Guinea","Guinea-Bissau","Guyana","Haiti","HeardIslandandMcDonaldIslands","HolySee(VaticanCityState)","Honduras","HongKong","Hungary","Iceland","India","Indonesia","Iran,IslamicRepublicof","Iraq","Ireland","IsleofMan","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Korea,DemocraticPeople'sRepublicof","Korea,Republicof","Kuwait","Kyrgyzstan","LaoPeople'sDemocraticRepublic","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macao","Macedonia,theformerYugoslavRepublicof","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","MarshallIslands","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia,FederatedStatesof","Moldova,Republicof","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","NewCaledonia","NewZealand","Nicaragua","Niger","Nigeria","Niue","NorfolkIsland","NorthernMarianaIslands","Norway","Oman","Pakistan","Palau","PalestinianTerritory,Occupied","Panama","PapuaNewGuinea","Paraguay","Peru","Philippines","Pitcairn","Poland","Portugal","PuertoRico","Qatar","Réunion","Romania","RussianFederation","Rwanda","SaintBarthélemy","SaintHelena,AscensionandTristandaCunha","SaintKittsandNevis","SaintLucia","SaintMartin(Frenchpart)","SaintPierreandMiquelon","SaintVincentandtheGrenadines","Samoa","SanMarino","SaoTomeandPrincipe","SaudiArabia","Senegal","Serbia","Seychelles","SierraLeone","Singapore","SintMaarten(Dutchpart)","Slovakia","Slovenia","SolomonIslands","Somalia","SouthAfrica","SouthGeorgiaandtheSouthSandwichIslands","SouthSudan","Spain","SriLanka","Sudan","Suriname","SvalbardandJanMayen","Swaziland","Sweden","Switzerland","SyrianArabRepublic","Taiwan,ProvinceofChina","Tajikistan","Tanzania,UnitedRepublicof","Thailand","Timor-Leste","Togo","Tokelau","Tonga","TrinidadandTobago","Tunisia","Turkey","Turkmenistan","TurksandCaicosIslands","Tuvalu","Uganda","Ukraine","UnitedArabEmirates","UnitedKingdom","UnitedStates","UnitedStatesMinorOutlyingIslands","Uruguay","Uzbekistan","Vanuatu","Venezuela,BolivarianRepublicof","VietNam","VirginIslands,British","VirginIslands,U.S.","WallisandFutuna","WesternSahara","Yemen","Zambia","Zimbabwe"};
-
+    public static final String JSON_ARRAY = "result";
+    public static final String EmployeeName  = "name";
+    public static final String EmployeeNamearray = "name";
+    private JSONArray result;
+    Spinner spinner;
+    String  EmpName;
+    private ArrayList<String> arrayList;
+    TextView gameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tournament_add);
 
-        gametext =(TextView)findViewById(R.id.game);
-        gameList = (Spinner) findViewById(R.id.gameList);
+        spinner = (Spinner) findViewById(R.id.gameList);
+        gameText = (TextView)findViewById(R.id.game);
+        arrayList = new ArrayList<String>();
         load_games_to_spinner();
 
-        //Spinner
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, bbb);
-        gameList.setAdapter(adapter);
-
-        gameList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                gametext.setText(String.valueOf(bbb));
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Setting the values to textviews for a selected item
+              //  gameText.setText(getemployeeName(position));
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected(AdapterView<?> parent) {
+                gameText.setText("");
 
             }
         });
 
 
+
     }
+
 
     private void load_games_to_spinner()
     {
@@ -73,29 +74,12 @@ public class TournamentAddActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                //response
-                Log.d("Response", response);
-                try{
-                    JSONArray jsonArray = new JSONArray(response);
-
-                    games = new String[jsonArray.length()];
-                    for(int i=0; i<jsonArray.length(); i++){
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        String mesage = jsonObject.getString("name");
-                       // Toast.makeText(TournamentAddActivity.this, mesage, Toast.LENGTH_SHORT).show();
-                        listItem.add(mesage);
-
-                        games[i] = mesage;
-
-
-                    }
-
-                    for(int i=0;i<games.length;i++){
-                        bbb.add(games[i]);
-                    }
-
-//                    listItem.addAll(list);
-                }catch (JSONException e) {
+                JSONObject j = null;
+                try {
+                    j = new JSONObject(response);
+                    result = j.getJSONArray(JSON_ARRAY);
+                    empdetails(result);
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -125,6 +109,19 @@ public class TournamentAddActivity extends AppCompatActivity {
             }
         };
         MySingleton.getInstance(TournamentAddActivity.this).addToRequestque(stringRequest);
+    }
+
+    private void empdetails(JSONArray j) {
+        for (int i = 0; i < j.length(); i++) {
+            try {
+                JSONObject json = j.getJSONObject(i);
+                arrayList.add(json.getString(EmployeeNamearray));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        // arrayList.add(0,"Select Employee");
+        spinner.setAdapter(new ArrayAdapter<String>(TournamentAddActivity.this, android.R.layout.simple_spinner_dropdown_item, arrayList));
     }
 
 }
