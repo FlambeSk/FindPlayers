@@ -55,7 +55,7 @@
                 android:textColor="#000"
                 android:textColorHint="#808080"
                 android:textSize="13dp"
-                android:inputType="textCapSentences" />
+                android:inputType="textCapSentences|textAutoCorrect" />
 
 
         </LinearLayout>
