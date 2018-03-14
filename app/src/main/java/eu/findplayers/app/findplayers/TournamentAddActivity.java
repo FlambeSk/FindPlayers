@@ -2,6 +2,7 @@ package eu.findplayers.app.findplayers;
 
 import android.*;
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -66,6 +67,7 @@ public class TournamentAddActivity extends AppCompatActivity {
     private  static final String UPLOAD_URL = "https://findplayers.eu/android/tournament.php";
     private Uri filePath;
     private Bitmap bitmap;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,10 @@ public class TournamentAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 uploadNewTournament(bitmap);
-                Toast.makeText(TournamentAddActivity.this, "Cloicked", Toast.LENGTH_SHORT).show();
+               progressDialog = new ProgressDialog(TournamentAddActivity.this);
+               progressDialog.setTitle("Uploading");
+               progressDialog.setMessage("Please wait...");
+               progressDialog.show();
 
             }
         });
@@ -235,6 +240,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(TournamentAddActivity.this, "Not Uploaded", Toast.LENGTH_SHORT).show();
                     }
+                    progressDialog.dismiss();
 
 
 

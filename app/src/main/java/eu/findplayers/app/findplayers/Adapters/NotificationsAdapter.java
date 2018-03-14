@@ -75,8 +75,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         //holder.time.setText(my_data.get(position).getTimestamp());
         TimeHelp = my_data.get(position).getTimestamp();
         Long TimeHelpInt = Long.valueOf(TimeHelp);
+        TimeHelpInt = TimeHelpInt*1000;
 
-        CharSequence a = DateUtils.getRelativeDateTimeString(context,TimeHelpInt,DateUtils.SECOND_IN_MILLIS,DateUtils.DAY_IN_MILLIS, 0);
+       // CharSequence a = DateUtils.getRelativeDateTimeString(context,TimeHelpInt,DateUtils.SECOND_IN_MILLIS,DateUtils.DAY_IN_MILLIS, 0);
+        CharSequence a = DateUtils.getRelativeTimeSpanString(TimeHelpInt,System.currentTimeMillis(),DateUtils.MINUTE_IN_MILLIS, 0);
         holder.time.setText(a);
 
             holder.fromTextView.setOnClickListener(new View.OnClickListener() {

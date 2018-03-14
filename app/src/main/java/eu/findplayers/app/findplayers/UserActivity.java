@@ -30,10 +30,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import eu.findplayers.app.findplayers.Adapters.ProfileGamesAdapter;
@@ -62,6 +65,8 @@ public class UserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+
 
         //Getting ID of logged user
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -337,7 +342,10 @@ public class UserActivity extends AppCompatActivity {
         Map time = ServerValue.TIMESTAMP;
         String timestamp = time.toString();
 
-        NotificationsData notificationsData = new NotificationsData(id_from, id_to, "Friend Request", from_name, keys, loggedImage ,timestamp, false);
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+
+        NotificationsData notificationsData = new NotificationsData(id_from, id_to, "Friend Request", from_name, keys, loggedImage ,ts, false);
 
         String idTo=id_to.toString();
         myRef.child(idTo).child(keys).setValue(notificationsData);
