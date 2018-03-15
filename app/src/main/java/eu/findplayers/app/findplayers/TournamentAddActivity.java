@@ -2,6 +2,7 @@ package eu.findplayers.app.findplayers;
 
 import android.*;
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,6 +47,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,19 +59,21 @@ public class TournamentAddActivity extends AppCompatActivity {
     public static final String JSON_ARRAY = "result";
     public static final String gameId  = "id";
     public static final String gameName = "name";
+    Calendar myCalendar = Calendar.getInstance();
     private JSONArray result;
     Spinner spinner;
-    String  game_id;
+    String  game_id, tournamentNamePost, aboutTournamentPost;
     private ArrayList<String> arrayList;
     TextView gameText;
     Button createTournament, chooseImage;
     ImageView tournamentImage;
     private static final int STORAGE_PERMISSION_CODE = 2342;
     private static final int PICK_IMAGE_REQUEST = 22;
-    private  static final String UPLOAD_URL = "https://findplayers.eu/android/tournament.php";
     private Uri filePath;
     private Bitmap bitmap;
     ProgressDialog progressDialog;
+    EditText tournamentName,playersNumber, aboutTournament;
+    Integer playersNumberPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +88,9 @@ public class TournamentAddActivity extends AppCompatActivity {
         createTournament = (Button) findViewById(R.id.createTournament);
         chooseImage = (Button) findViewById(R.id.chooseImage);
         tournamentImage = (ImageView) findViewById(R.id.tournamentImage);
+        tournamentName = (EditText) findViewById(R.id.tournament_name);
+        playersNumber = (EditText) findViewById(R.id.players_number);
+        aboutTournament = (EditText) findViewById(R.id.aboutTournament);
 
         arrayList = new ArrayList<String>();
         load_games_to_spinner();
@@ -92,7 +101,6 @@ public class TournamentAddActivity extends AppCompatActivity {
                 //Setting the values to textviews for a selected item
                 //gameText.setText(getGameId(position));
                 game_id = getGameId(position);
-                Toast.makeText(TournamentAddActivity.this, game_id, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -113,6 +121,10 @@ public class TournamentAddActivity extends AppCompatActivity {
         createTournament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tournamentNamePost = tournamentName.getText().toString();
+                playersNumberPost = Integer.parseInt(playersNumber.getText().toString());
+                aboutTournamentPost = aboutTournament.getText().toString();
+
                 uploadNewTournament(bitmap);
                progressDialog = new ProgressDialog(TournamentAddActivity.this);
                progressDialog.setTitle("Uploading");
@@ -125,6 +137,7 @@ public class TournamentAddActivity extends AppCompatActivity {
 
 
     }
+
 
     //Storage request
     private void requestStoragePermission(){
@@ -175,53 +188,6 @@ public class TournamentAddActivity extends AppCompatActivity {
         byte[] imagebyte = ba.toByteArray();
         String encode = Base64.encodeToString(imagebyte, Base64.DEFAULT);
         return encode;
-    }
-
-    private void uploadTournament() {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                Toast.makeText(TournamentAddActivity.this, "Try", Toast.LENGTH_SHORT).show();
-
-                try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    JSONObject jsonObject = jsonArray.getJSONObject(0);
-                    String message = jsonObject.getString("message");
-
-                    if (message.equals("Uploaded")){
-                        Toast.makeText(TournamentAddActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(TournamentAddActivity.this, "Not Uploaded", Toast.LENGTH_SHORT).show();
-                    }
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                String image = getStringImage(bitmap);
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("createTournament", "true");
-                params.put("image", image);
-
-                return params;
-            }
-        };
-       // RequestQueue requestQueue = Volley.newRequestQueue(this);
-       // requestQueue.add(stringRequest);
-        MySingleton.getInstance(TournamentAddActivity.this).addToRequestque(stringRequest);
     }
 
     public void uploadNewTournament( final Bitmap pic)
