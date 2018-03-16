@@ -160,8 +160,6 @@ public class TournamentAddActivity extends AppCompatActivity {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                int hour = calendar.get(Calendar.HOUR);
-                int minute = calendar.get(Calendar.MINUTE);
 
                 DatePickerDialog dialog = new DatePickerDialog(TournamentAddActivity.this,
                         android.R.style.Theme_Holo_Dialog_MinWidth,
@@ -261,9 +259,9 @@ public class TournamentAddActivity extends AppCompatActivity {
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
-                    String message = jsonObject.getString("message");
+                    String message = jsonObject.getString("response");
 
-                    if (message.equals("Uploaded")){
+                    if (message.equals("OK")){
                         Toast.makeText(TournamentAddActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(TournamentAddActivity.this, "Not Uploaded", Toast.LENGTH_SHORT).show();
@@ -282,7 +280,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
+                       // progressDialog.dismiss();
                         //error
                         //Log.d("Error.Response", error);
                         // Toast.makeText(MessagesActivity.this, "Error", Toast.LENGTH_LONG).show();
