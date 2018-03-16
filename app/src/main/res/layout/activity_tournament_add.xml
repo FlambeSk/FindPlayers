@@ -131,13 +131,33 @@
                         android:textSize="15sp"/>
 
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/chooseDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:text="Choose" />
                 </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/tournament_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textVisiblePassword"
+                    android:ems="10"
+                    android:background="@android:color/transparent"
+                    android:drawablePadding="8dp"
+                    android:padding="8dp"
+                    android:hint="Tournament password"
+                    android:textColorHint="#000000"
+                    android:maxLines="1"
+                    android:layout_marginTop="40dp"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

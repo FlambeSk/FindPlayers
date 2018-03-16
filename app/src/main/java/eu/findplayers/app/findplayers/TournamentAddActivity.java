@@ -4,11 +4,15 @@ import android.*;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -29,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -46,6 +51,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -59,21 +65,24 @@ public class TournamentAddActivity extends AppCompatActivity {
     public static final String JSON_ARRAY = "result";
     public static final String gameId  = "id";
     public static final String gameName = "name";
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private TimePickerDialog.OnTimeSetListener onTimeSetListener;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
     Calendar myCalendar = Calendar.getInstance();
     private JSONArray result;
     Spinner spinner;
-    String  game_id, tournamentNamePost, aboutTournamentPost;
+    String  tournamentNamePost, aboutTournamentPost, date, tournamentPasswordPost;
     private ArrayList<String> arrayList;
-    TextView gameText;
-    Button createTournament, chooseImage;
+    TextView gameText, showDate;
+    Button createTournament, chooseImage, chooseDate;
     ImageView tournamentImage;
     private static final int STORAGE_PERMISSION_CODE = 2342;
     private static final int PICK_IMAGE_REQUEST = 22;
     private Uri filePath;
     private Bitmap bitmap;
     ProgressDialog progressDialog;
-    EditText tournamentName,playersNumber, aboutTournament;
-    Integer playersNumberPost;
+    EditText tournamentName,playersNumber, aboutTournament, tournamentPassword;
+    Integer playersNumberPost, logged_id, game_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +92,10 @@ public class TournamentAddActivity extends AppCompatActivity {
         //Request storage permissions
         requestStoragePermission();
 
+        //Getting ID of logged user
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        logged_id = prefs.getInt("login_id", 0);//"No name defined" is the default value.
+
         spinner = (Spinner) findViewById(R.id.gameList);
         gameText = (TextView)findViewById(R.id.game);
         createTournament = (Button) findViewById(R.id.createTournament);
@@ -91,6 +104,9 @@ public class TournamentAddActivity extends AppCompatActivity {
         tournamentName = (EditText) findViewById(R.id.tournament_name);
         playersNumber = (EditText) findViewById(R.id.players_number);
         aboutTournament = (EditText) findViewById(R.id.aboutTournament);
+        chooseDate = (Button) findViewById(R.id.chooseDate);
+        showDate = (TextView) findViewById(R.id.showDate);
+        tournamentPassword = (EditText) findViewById(R.id.tournament_password);
 
         arrayList = new ArrayList<String>();
         load_games_to_spinner();
@@ -100,7 +116,7 @@ public class TournamentAddActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Setting the values to textviews for a selected item
                 //gameText.setText(getGameId(position));
-                game_id = getGameId(position);
+                game_id = Integer.parseInt(getGameId(position));
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -124,16 +140,59 @@ public class TournamentAddActivity extends AppCompatActivity {
                 tournamentNamePost = tournamentName.getText().toString();
                 playersNumberPost = Integer.parseInt(playersNumber.getText().toString());
                 aboutTournamentPost = aboutTournament.getText().toString();
+                tournamentPasswordPost = tournamentPassword.getText().toString();
 
-                uploadNewTournament(bitmap);
-               progressDialog = new ProgressDialog(TournamentAddActivity.this);
+                uploadNewTournament(tournamentNamePost, game_id, playersNumberPost, aboutTournamentPost, bitmap, logged_id, tournamentPasswordPost, date);
+              /* progressDialog = new ProgressDialog(TournamentAddActivity.this);
                progressDialog.setTitle("Uploading");
                progressDialog.setMessage("Please wait...");
-               progressDialog.show();
+               progressDialog.show();*/
 
             }
         });
 
+        //Choose Date start event
+        chooseDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int hour = calendar.get(Calendar.HOUR);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                DatePickerDialog dialog = new DatePickerDialog(TournamentAddActivity.this,
+                        android.R.style.Theme_Holo_Dialog_MinWidth,
+                        mDateSetListener,
+                        year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, final int year, final int month, final int dayOfMonth) {
+
+                Calendar calendar = Calendar.getInstance();
+                final int hour = calendar.get(Calendar.HOUR);
+                int minute = calendar.get(Calendar.MINUTE);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(TournamentAddActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                date = dayOfMonth + "/" + month + "/" + year + "-" + hourOfDay + ":" + minute;
+                                showDate.setText(date);
+                            }
+                        }, hour, minute, true);
+                        timePickerDialog.show();
+
+
+
+            }
+        };
 
 
     }
@@ -190,7 +249,7 @@ public class TournamentAddActivity extends AppCompatActivity {
         return encode;
     }
 
-    public void uploadNewTournament( final Bitmap pic)
+    public void uploadNewTournament( final String name, final Integer gameID, final Integer playersCount, final String about, final Bitmap pic, final Integer createdBy, final String password, final String startDate)
     {
         StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
             @Override
@@ -202,11 +261,12 @@ public class TournamentAddActivity extends AppCompatActivity {
                     String message = jsonObject.getString("message");
 
                     if (message.equals("Uploaded")){
+                       // progressDialog.dismiss();
                         Toast.makeText(TournamentAddActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(TournamentAddActivity.this, "Not Uploaded", Toast.LENGTH_SHORT).show();
                     }
-                    progressDialog.dismiss();
+
 
 
 
@@ -231,10 +291,21 @@ public class TournamentAddActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 String image = getStringImage(pic);
+                String gameId = gameID.toString();
+                String playersCounts = playersCount.toString();
+                String created_by = createdBy.toString();
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("createTournament", "true");
+                params.put("tournamentName", name);
+                params.put("tournamentGame", gameId);
+                params.put("playersCount", playersCounts);
+                params.put("tournamentAbout", about);
                 params.put("image", image);
+                params.put("createdBy", created_by);
+                params.put("tournamentPassword", password);
+                params.put("startDate", startDate);
+
 
                 return params;
             }
