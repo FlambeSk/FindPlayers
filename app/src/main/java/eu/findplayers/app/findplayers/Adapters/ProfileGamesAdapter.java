@@ -158,8 +158,6 @@ public class ProfileGamesAdapter extends RecyclerView.Adapter<ProfileGamesAdapte
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                     String msg = jsonObject.getString("msg");
 
-
-
                     if(msg.equals("Deleted"))
                     {
                         new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)

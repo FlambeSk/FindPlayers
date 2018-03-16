@@ -58,6 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import eu.findplayers.app.findplayers.ForLogin.MySingleton;
 
 public class TournamentAddActivity extends AppCompatActivity {
@@ -142,12 +143,24 @@ public class TournamentAddActivity extends AppCompatActivity {
                 aboutTournamentPost = aboutTournament.getText().toString();
                 tournamentPasswordPost = tournamentPassword.getText().toString();
 
-                uploadNewTournament(tournamentNamePost, game_id, playersNumberPost, aboutTournamentPost, bitmap, logged_id, tournamentPasswordPost, date);
-               progressDialog = new ProgressDialog(TournamentAddActivity.this);
-               progressDialog.setTitle("Uploading");
-               progressDialog.setMessage("Please wait...");
-               progressDialog.setIndeterminate(false);
-               progressDialog.show();
+                if (tournamentNamePost.equals("") || playersNumberPost == null || aboutTournamentPost.equals("") || tournamentNamePost.equals("") || tournamentImage.getDrawable() == null)
+                {
+                    new SweetAlertDialog(TournamentAddActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Oops...")
+                            .setContentText("Fill all inputs + insert Image!")
+                            .show();
+                } else
+                {
+                    uploadNewTournament(tournamentNamePost, game_id, playersNumberPost, aboutTournamentPost, bitmap, logged_id, tournamentPasswordPost, date);
+                    progressDialog = new ProgressDialog(TournamentAddActivity.this);
+                    progressDialog.setTitle("Uploading");
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.setIndeterminate(false);
+                    progressDialog.show();
+                }
+
+
+
 
             }
         });
@@ -255,6 +268,10 @@ public class TournamentAddActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
                 progressDialog.dismiss();
+                new SweetAlertDialog(TournamentAddActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Good job!")
+                        .setContentText("Tournament was created!")
+                        .show();
 
                 try {
                     JSONArray jsonArray = new JSONArray(response);
@@ -262,6 +279,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                     String message = jsonObject.getString("response");
 
                     if (message.equals("OK")){
+
                         Toast.makeText(TournamentAddActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(TournamentAddActivity.this, "Not Uploaded", Toast.LENGTH_SHORT).show();
