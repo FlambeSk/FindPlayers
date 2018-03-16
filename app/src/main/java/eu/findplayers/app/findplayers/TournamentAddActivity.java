@@ -143,10 +143,11 @@ public class TournamentAddActivity extends AppCompatActivity {
                 tournamentPasswordPost = tournamentPassword.getText().toString();
 
                 uploadNewTournament(tournamentNamePost, game_id, playersNumberPost, aboutTournamentPost, bitmap, logged_id, tournamentPasswordPost, date);
-              /* progressDialog = new ProgressDialog(TournamentAddActivity.this);
+               progressDialog = new ProgressDialog(TournamentAddActivity.this);
                progressDialog.setTitle("Uploading");
                progressDialog.setMessage("Please wait...");
-               progressDialog.show();*/
+               progressDialog.setIndeterminate(false);
+               progressDialog.show();
 
             }
         });
@@ -255,13 +256,14 @@ public class TournamentAddActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
+                progressDialog.dismiss();
+
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                     String message = jsonObject.getString("message");
 
                     if (message.equals("Uploaded")){
-                       // progressDialog.dismiss();
                         Toast.makeText(TournamentAddActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(TournamentAddActivity.this, "Not Uploaded", Toast.LENGTH_SHORT).show();
@@ -280,6 +282,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
                         //error
                         //Log.d("Error.Response", error);
                         // Toast.makeText(MessagesActivity.this, "Error", Toast.LENGTH_LONG).show();
