@@ -50,8 +50,11 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".TournamentAddActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".TournamentCardActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".TournamentCardActivity"
+            android:label="@string/title_activity_tournament_card"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>
