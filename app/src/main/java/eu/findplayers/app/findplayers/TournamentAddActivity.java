@@ -309,7 +309,8 @@ public class TournamentAddActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams()
             {
-                String image = getStringImage(pic);
+                //Image to String
+               // String image = getStringImage(pic);
                 String gameId = gameID.toString();
                 String playersCounts = playersCount.toString();
                 String created_by = createdBy.toString();
@@ -320,7 +321,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                 params.put("tournamentGame", gameId);
                 params.put("playersCount", playersCounts);
                 params.put("tournamentAbout", about);
-                params.put("image", image);
+                params.put("image", "Game Image");
                 params.put("createdBy", created_by);
                 params.put("tournamentPassword", password);
                 params.put("startDate", startDate);
