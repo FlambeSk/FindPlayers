@@ -83,7 +83,7 @@ public class TournamentAddActivity extends AppCompatActivity {
     private Bitmap bitmap;
     ProgressDialog progressDialog;
     EditText tournamentName,playersNumber, aboutTournament, tournamentPassword;
-    Integer playersNumberPost, logged_id, game_id;
+    Integer playersNumberPost, logged_id, game_id, newTournamentID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class TournamentAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tournament_add);
 
         //Request storage permissions
-        requestStoragePermission();
+       // requestStoragePermission();
 
         //Getting ID of logged user
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -100,8 +100,6 @@ public class TournamentAddActivity extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.gameList);
         gameText = (TextView)findViewById(R.id.game);
         createTournament = (Button) findViewById(R.id.createTournament);
-        chooseImage = (Button) findViewById(R.id.chooseImage);
-        tournamentImage = (ImageView) findViewById(R.id.tournamentImage);
         tournamentName = (EditText) findViewById(R.id.tournament_name);
         playersNumber = (EditText) findViewById(R.id.players_number);
         aboutTournament = (EditText) findViewById(R.id.aboutTournament);
@@ -127,30 +125,34 @@ public class TournamentAddActivity extends AppCompatActivity {
         });
 
         //On choose button click
-        chooseImage.setOnClickListener(new View.OnClickListener() {
+      /*  chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showFileChooser();
             }
         });
+*/
 
         //On submit button click
         createTournament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tournamentNamePost = tournamentName.getText().toString();
-                playersNumberPost = Integer.parseInt(playersNumber.getText().toString());
+                String playersNumbers = playersNumber.getText().toString();
+
                 aboutTournamentPost = aboutTournament.getText().toString();
                 tournamentPasswordPost = tournamentPassword.getText().toString();
 
-                if (tournamentNamePost.equals("") || playersNumberPost == null || aboutTournamentPost.equals("") || tournamentNamePost.equals("") || tournamentImage.getDrawable() == null)
+                if (tournamentNamePost.equals("") || playersNumbers.equals("") || aboutTournamentPost.equals("") || tournamentNamePost.equals(""))
                 {
+
                     new SweetAlertDialog(TournamentAddActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Oops...")
-                            .setContentText("Fill all inputs + insert Image!")
+                            .setContentText("Fill all inputs!")
                             .show();
                 } else
                 {
+                    playersNumberPost = Integer.parseInt(playersNumber.getText().toString());
                     uploadNewTournament(tournamentNamePost, game_id, playersNumberPost, aboutTournamentPost, bitmap, logged_id, tournamentPasswordPost, date);
                     progressDialog = new ProgressDialog(TournamentAddActivity.this);
                     progressDialog.setTitle("Uploading");
@@ -178,6 +180,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                         android.R.style.Theme_Holo_Dialog_MinWidth,
                         mDateSetListener,
                         year,month,day);
+                dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
@@ -195,7 +198,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                date = dayOfMonth + "/" + month + "/" + year + "-" + hourOfDay + ":" + minute;
+                                date = dayOfMonth + "/" + month + "/" + year + " " + hourOfDay + ":" + minute;
                                 showDate.setText(date);
                             }
                         }, hour, minute, true);
@@ -209,7 +212,7 @@ public class TournamentAddActivity extends AppCompatActivity {
 
     }
 
-
+/*
     //Storage request
     private void requestStoragePermission(){
        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
@@ -261,41 +264,54 @@ public class TournamentAddActivity extends AppCompatActivity {
         return encode;
     }
 
+    */
+
     public void uploadNewTournament( final String name, final Integer gameID, final Integer playersCount, final String about, final Bitmap pic, final Integer createdBy, final String password, final String startDate)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://findplayers.eu/android/tournament.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                progressDialog.dismiss();
-                new SweetAlertDialog(TournamentAddActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Good job!")
-                        .setContentText("Tournament was created!")
-                        .show();
-
+                //response
+                //Log.d("Response", response);
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
-                    String message = jsonObject.getString("response");
+                    String code = jsonObject.getString("response");
 
-                    if (message.equals("OK")){
+                    if(code.equals("OK")){
 
-                        Toast.makeText(TournamentAddActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(TournamentAddActivity.this, "Not Uploaded", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        newTournamentID = jsonObject.getInt("lastID");
+                        new SweetAlertDialog(TournamentAddActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Good job!")
+                                .setContentText("Tournament was created!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Intent intent = new Intent(TournamentAddActivity.this, TournamentCardActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                        Bundle sendBundle = new Bundle();
+                                        sendBundle.putInt("tournamentID", newTournamentID);
+                                        intent.putExtras(sendBundle);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .show();
+
+                    } else if (code.equals("WARNING")){
+                        progressDialog.dismiss();
+                        new SweetAlertDialog(TournamentAddActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Oopps!")
+                                .setContentText(jsonObject.getString("message"))
+                                .show();
                     }
-
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //response
-                Log.d("Response", response);
             }
         },
-                new com.android.volley.Response.ErrorListener() {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                        // progressDialog.dismiss();
@@ -307,7 +323,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                 }
         ){
             @Override
-            protected Map<String, String> getParams()
+            protected Map<String, String> getParams() throws AuthFailureError
             {
                 //Image to String
                // String image = getStringImage(pic);
@@ -330,8 +346,9 @@ public class TournamentAddActivity extends AppCompatActivity {
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        MySingleton.getInstance(TournamentAddActivity.this).addToRequestque(stringRequest);
+        //RequestQueue requestQueue = Volley.newRequestQueue(this);
+       // requestQueue.add(stringRequest);
     }
 
     private void load_games_to_spinner()

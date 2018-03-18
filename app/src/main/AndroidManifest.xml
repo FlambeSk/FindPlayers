@@ -48,10 +48,10 @@
         <activity
             android:name=".NotificationsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".TournamentAddActivity"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+        <activity
+            android:name=".TournamentAddActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".TournamentCardActivity"></activity>
     </application>
 
 </manifest>
