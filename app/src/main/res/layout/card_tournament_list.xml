@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="130dp"
+        android:layout_height="110dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/tournamentImage" />
+
+            <TextView
+                android:id="@+id/tournamentName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tournamentImage"
+                android:layout_marginTop="2dp"
+                android:text="dsfdsfdsfdsfs"
+                android:layout_centerHorizontal="true"
+                android:textColor="#000"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10/50"
+                android:id="@+id/tournamentCount"
+                android:layout_below="@id/tournamentName"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="3dp"
+                android:textColor="#000"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
