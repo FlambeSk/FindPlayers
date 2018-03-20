@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity
 
             TournamentsFragment tournamentsFragment = new TournamentsFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, tournamentsFragment);
+            fragmentTransaction.replace(R.id.fragment_container, tournamentsFragment, "TournamentFragment");
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_share) {

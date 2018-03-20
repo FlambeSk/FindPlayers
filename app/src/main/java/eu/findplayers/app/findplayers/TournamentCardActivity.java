@@ -1,8 +1,10 @@
 package eu.findplayers.app.findplayers;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -18,6 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import eu.findplayers.app.findplayers.Fragments.Tab1Tournament;
+import eu.findplayers.app.findplayers.Fragments.Tab2players;
+import eu.findplayers.app.findplayers.Fragments.Tab3Settings;
+import eu.findplayers.app.findplayers.Fragments.TournamentsFragment;
 
 public class TournamentCardActivity extends AppCompatActivity {
 
@@ -35,6 +42,8 @@ public class TournamentCardActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private Integer logged_id;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +65,11 @@ public class TournamentCardActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //Getting ID of logged user
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        logged_id = prefs.getInt("login_id", 0);//"No name defined" is the default value.
+        final Bundle bundle = getIntent().getExtras();
+        toolbar.setTitle(bundle.getString("tournamentName"));
 
     }
 
@@ -91,41 +97,6 @@ public class TournamentCardActivity extends AppCompatActivity {
     }
 
     /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_tournament_card, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
@@ -139,7 +110,21 @@ public class TournamentCardActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position)
+            {
+                case 0:
+                    Tab1Tournament tab1Tournament = new Tab1Tournament();
+                    return tab1Tournament;
+                case 1:
+                    Tab2players tab2players = new Tab2players();
+                    return tab2players;
+                case 2:
+                    Tab3Settings tab3Settings = new Tab3Settings();
+                    return tab3Settings;
+                default:
+                        return null;
+            }
+
         }
 
         @Override
@@ -148,4 +133,18 @@ public class TournamentCardActivity extends AppCompatActivity {
             return 3;
         }
     }
+
+
+/*
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = null;
+                        fragment = getSupportFragmentManager().findFragmentByTag("TournamentFragment");
+                        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.detach(fragment);
+                        fragmentTransaction.attach(fragment);
+                        fragmentTransaction.commit();
+    }
+*/
+
 }

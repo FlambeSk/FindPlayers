@@ -242,6 +242,7 @@ public class MessagesActivity extends AppCompatActivity {
                 params.put("friend_name", friend_name);
                 params.put("body", body);
                 params.put("notification", "message");
+                params.put("image", "a");
 
                 return params;
             }

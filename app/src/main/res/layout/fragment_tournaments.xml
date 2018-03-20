@@ -1,7 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/swipe_down_layout_fragment"
     tools:context="eu.findplayers.app.findplayers.Fragments.TournamentsFragment">
 
     <RelativeLayout
@@ -10,6 +12,44 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Newest tournaments"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:textColor="#000"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_all_tournaments"
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:orientation="horizontal"
+                    card_view:cardCornerRadius="5dp"
+                    card_view:cardElevation="5dp"
+                    android:paddingBottom="8dp"
+                    card_view:cardUseCompatPadding="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Biggest tournaments"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:textColor="#000"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_biggest_tournaments"
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:orientation="horizontal"
+                    card_view:cardCornerRadius="5dp"
+                    card_view:cardElevation="5dp"
+                    android:paddingBottom="8dp"
+                    card_view:cardUseCompatPadding="true" />
+            </LinearLayout>
 
 
 
@@ -35,4 +75,4 @@
         </RelativeLayout>
     </RelativeLayout>
 
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

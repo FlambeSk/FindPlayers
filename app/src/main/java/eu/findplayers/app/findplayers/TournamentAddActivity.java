@@ -52,8 +52,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,17 +191,19 @@ public class TournamentAddActivity extends AppCompatActivity {
 
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, final int year, final int month, final int dayOfMonth) {
+            public void onDateSet(DatePicker view, final int year, int month, final int dayOfMonth) {
 
-                Calendar calendar = Calendar.getInstance();
+                final Calendar calendar = Calendar.getInstance();
                 final int hour = calendar.get(Calendar.HOUR);
                 int minute = calendar.get(Calendar.MINUTE);
+                final int mon = month+1;
                 TimePickerDialog timePickerDialog = new TimePickerDialog(TournamentAddActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                date = dayOfMonth + "/" + month + "/" + year + " " + hourOfDay + ":" + minute;
-                                showDate.setText(date);
+                                date = dayOfMonth + "-" + mon + "-" + year +" " + hourOfDay+":"+ minute + ":00";
+
+                                showDate.setText(String.valueOf(date));
                             }
                         }, hour, minute, true);
                         timePickerDialog.show();
@@ -292,6 +296,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                                         Intent intent = new Intent(TournamentAddActivity.this, TournamentCardActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         Bundle sendBundle = new Bundle();
                                         sendBundle.putInt("tournamentID", newTournamentID);
+                                        sendBundle.putString("tournamentName", name);
                                         intent.putExtras(sendBundle);
                                         startActivity(intent);
                                     }
