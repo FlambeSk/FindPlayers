@@ -58,11 +58,16 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Initial Fragment like home page
+        //Getting logged user and set header
+        final Bundle bundle = getIntent().getExtras();
+
+    if (savedInstanceState == null)
+    {
         HomeFragment homeFragment = new HomeFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, homeFragment);
         fragmentTransaction.commit();
+    }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,8 +75,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //Getting logged user and set header
-        final Bundle bundle = getIntent().getExtras();
+
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);

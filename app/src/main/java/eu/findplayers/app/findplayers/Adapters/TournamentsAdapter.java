@@ -59,6 +59,7 @@ public class TournamentsAdapter extends RecyclerView.Adapter<TournamentsAdapter.
                 Bundle bundle = new Bundle();
                 bundle.putInt("tournament_id", tournamentData.get(position).getTournamentID());
                 bundle.putString("tournamentName", tournamentData.get(position).getTournamnetName());
+                bundle.putString("tournamentImage", tournamentData.get(position).getTournamentImage());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }

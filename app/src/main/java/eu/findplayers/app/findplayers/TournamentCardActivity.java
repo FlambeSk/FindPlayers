@@ -3,8 +3,13 @@ package eu.findplayers.app.findplayers;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,7 +24,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import java.net.URL;
 
 import eu.findplayers.app.findplayers.Fragments.Tab1Tournament;
 import eu.findplayers.app.findplayers.Fragments.Tab2players;
@@ -44,11 +55,30 @@ public class TournamentCardActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private Integer logged_id;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
-
+    private ImageView image;
+    AppBarLayout appBarLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tournament_card);
+        final Bundle bundle = getIntent().getExtras();
+
+        image =  new ImageView(TournamentCardActivity.this);
+        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        Picasso.with(this).load(bundle.getString("tournamentImage")).into(image, new Callback() {
+            @Override
+            public void onSuccess() {
+                appBarLayout.setBackground(image.getDrawable());
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,8 +98,8 @@ public class TournamentCardActivity extends AppCompatActivity {
         //Getting ID of logged user
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         logged_id = prefs.getInt("login_id", 0);//"No name defined" is the default value.
-        final Bundle bundle = getIntent().getExtras();
-        toolbar.setTitle(bundle.getString("tournamentName"));
+
+        toolbar.setTitle("");
 
     }
 
@@ -134,16 +164,14 @@ public class TournamentCardActivity extends AppCompatActivity {
         }
     }
 
-
 /*
+
     @Override
     public void onBackPressed() {
-        Fragment fragment = null;
-                        fragment = getSupportFragmentManager().findFragmentByTag("TournamentFragment");
-                        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.detach(fragment);
-                        fragmentTransaction.attach(fragment);
-                        fragmentTransaction.commit();
+        TournamentsFragment tournamentsFragment = new TournamentsFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, tournamentsFragment, "TournamentFragment");
+        fragmentTransaction.commit();
     }
 */
 

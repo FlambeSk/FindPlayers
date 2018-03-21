@@ -8,4 +8,5 @@
     <color name="refresh2">#00FF00</color>
     <color name="colorWhite">#FFFF</color>
     <color name="trans">#00000000 </color>
+    <color name="transparent_colorPrimary_80">#CC2469df</color>
 </resources>
