@@ -20,6 +20,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="My tournaments"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:textColor="#000"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_my_tournaments"
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:orientation="horizontal"
+                    card_view:cardCornerRadius="5dp"
+                    card_view:cardElevation="5dp"
+                    android:paddingBottom="8dp"
+                    card_view:cardUseCompatPadding="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Newest tournaments"
                     android:padding="5dp"
                     android:textSize="20sp"

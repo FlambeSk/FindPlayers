@@ -1,7 +1,9 @@
 package eu.findplayers.app.findplayers.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -48,6 +50,13 @@ import eu.findplayers.app.findplayers.UserActivity;
 public class TournamentsFragment extends Fragment {
 
     ImageView newTournament;
+    Integer logged_id;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
+    //My tournaments
+    private List<TournamentData> myTournamentsData;
+    private TournamentsAdapter myTournamentsAdapter;
+    private RecyclerView myTournamentsRecyclerView;
+
     //all tournaments
     private List<TournamentData> tournamentData;
     private TournamentsAdapter tournamentsAdapter;
@@ -65,6 +74,10 @@ public class TournamentsFragment extends Fragment {
 
         getActivity().setTitle("Tournaments");
 
+        //Get ID of logged user
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+        logged_id = prefs.getInt("login_id", 0);//"No name defined" is the default value.
+
         newTournament = (ImageView)getActivity().findViewById(R.id.newTournament);
 
         //Add new tournament
@@ -75,6 +88,8 @@ public class TournamentsFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
+
+        showMyTournaments();
 
        AllTournaments();
 
@@ -121,6 +136,65 @@ public class TournamentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tournaments, container, false);
+    }
+
+    private void MyTournaments(final int user_id)
+    {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //response
+                Log.d("Response", response);
+
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+
+
+                    for (int i=0; i<jsonArray.length(); i++)
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String tournamentName = jsonObject.getString("tournamentName");
+                        String tournamentImage = jsonObject.getString("tournament_image");
+                        Integer tournamentID = jsonObject.getInt("tournamentID");
+                        String countt = jsonObject.getString("counts");
+
+                        TournamentData data = new TournamentData(tournamentID, tournamentName, tournamentImage, countt);
+                        myTournamentsData.add(data);
+                        myTournamentsAdapter.notifyDataSetChanged();
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //error
+                        //Log.d("Error.Response", error);
+                        // Toast.makeText(MessagesActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                String user = String.valueOf(user_id);
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("showMyTournaments", "true");
+                params.put("userID", user);
+
+
+
+                return params;
+            }
+        };
+        MySingleton.getInstance(getActivity()).addToRequestque(stringRequest);
     }
 
     private void Tournaments(final int limit, final String order)
@@ -239,6 +313,17 @@ public class TournamentsFragment extends Fragment {
             }
         };
         MySingleton.getInstance(getActivity()).addToRequestque(stringRequest);
+    }
+
+    private void showMyTournaments()
+    {
+        MyTournaments(logged_id);
+        myTournamentsData = new ArrayList<>();
+        myTournamentsRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_my_tournaments);
+        LinearLayoutManager layoutManagerMyT = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        myTournamentsRecyclerView.setLayoutManager(layoutManagerMyT);
+        myTournamentsAdapter = new TournamentsAdapter(getActivity(), myTournamentsData);
+        myTournamentsRecyclerView.setAdapter(myTournamentsAdapter);
     }
     private void AllTournaments()
     {

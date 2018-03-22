@@ -295,7 +295,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                                         Intent intent = new Intent(TournamentAddActivity.this, TournamentCardActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         Bundle sendBundle = new Bundle();
-                                        sendBundle.putInt("tournamentID", newTournamentID);
+                                        sendBundle.putInt("tournament_id", newTournamentID);
                                         sendBundle.putString("tournamentName", name);
                                         intent.putExtras(sendBundle);
                                         startActivity(intent);
