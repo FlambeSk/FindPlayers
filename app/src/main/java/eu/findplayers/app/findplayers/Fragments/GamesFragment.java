@@ -2,16 +2,24 @@ package eu.findplayers.app.findplayers.Fragments;
 
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +32,7 @@ import java.util.List;
 import eu.findplayers.app.findplayers.Adapters.AllGamesAdapter;
 import eu.findplayers.app.findplayers.Data.MyData;
 import eu.findplayers.app.findplayers.R;
+import eu.findplayers.app.findplayers.TournamentAddActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -37,6 +46,9 @@ public class GamesFragment extends Fragment {
     private AllGamesAdapter adapter;
     private List<MyData> data_list;
     private Integer ID;
+    ImageView searchButton;
+    ProgressDialog progressDialog;
+
 
     public GamesFragment() {
         // Required empty public constructor
@@ -45,9 +57,12 @@ public class GamesFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         getActivity().setTitle("Games");
         Bundle bundle = getActivity().getIntent().getExtras();
         ID = bundle.getInt("id");
+
 
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
         data_list = new ArrayList<>();
@@ -56,7 +71,24 @@ public class GamesFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new AllGamesAdapter(getActivity(),data_list);
         recyclerView.setAdapter(adapter);
+
+
+        searchButton = (ImageView) getActivity().findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SearchFragment searchFragment = new SearchFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, searchFragment, "SearchFragment");
+                fragmentTransaction.commit();
+            }
+        });
+
+
+
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,6 +96,7 @@ public class GamesFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_games, container, false);
     }
+
 
     private void load_data_from_server(final int id)
     {
@@ -99,6 +132,7 @@ public class GamesFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 adapter.notifyDataSetChanged();
+
             }
         };
 

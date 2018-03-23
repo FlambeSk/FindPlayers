@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ import eu.findplayers.app.findplayers.Data.TournamentData;
 import eu.findplayers.app.findplayers.GamePageActivity;
 import eu.findplayers.app.findplayers.R;
 import eu.findplayers.app.findplayers.TournamentCardActivity;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 /**
  * Created by CWSK_DEV on 3/19/2018.
@@ -47,7 +50,8 @@ public class TournamentsAdapter extends RecyclerView.Adapter<TournamentsAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
 
-        Glide.with(context).load(tournamentData.get(position).getTournamentImage()).into(holder.tournamentImage);
+        //Glide.with(context).load(tournamentData.get(position).getTournamentImage()).into(holder.tournamentImage);
+        Picasso.with(context).load(tournamentData.get(position).getTournamentImage()).transform(new RoundedCornersTransformation(10,5)).into(holder.tournamentImage);
         holder.tournamentName.setText(tournamentData.get(position).getTournamnetName());
         holder.tournamentCount.setText(tournamentData.get(position).getPlayersCount());
         holder.tournamentID = tournamentData.get(position).getTournamentID();

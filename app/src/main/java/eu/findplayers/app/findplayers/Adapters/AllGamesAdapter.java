@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -100,15 +101,9 @@ public class AllGamesAdapter extends RecyclerView.Adapter<AllGamesAdapter.ViewHo
                 bundle.putString("game_image", image);
                 intent.putExtras(bundle);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context, Pair.create(view, "imageTransition"));
 
-                    context.startActivity(intent, options.toBundle());
-                } else
-                {
                     context.startActivity(intent);
-                }
+
 
 
             }
@@ -120,6 +115,7 @@ public class AllGamesAdapter extends RecyclerView.Adapter<AllGamesAdapter.ViewHo
     public int getItemCount() {
         return my_data.size();
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 

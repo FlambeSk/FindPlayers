@@ -78,7 +78,7 @@ public class TournamentAddActivity extends AppCompatActivity {
     private ArrayList<String> arrayList;
     TextView gameText, showDate;
     Button createTournament, chooseImage, chooseDate;
-    ImageView tournamentImage;
+    ImageView tournamentImage, back_arrow;
     private static final int STORAGE_PERMISSION_CODE = 2342;
     private static final int PICK_IMAGE_REQUEST = 22;
     private Uri filePath;
@@ -123,6 +123,15 @@ public class TournamentAddActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
                 gameText.setText("");
 
+            }
+        });
+
+        //On back arrow click
+        back_arrow = (ImageView) findViewById(R.id.back_arrow) ;
+        back_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
