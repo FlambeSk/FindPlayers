@@ -75,17 +75,6 @@ public class GamesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-        searchButton = (ImageView) getActivity().findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
-            }
-        });
-
-
-
     }
 
 

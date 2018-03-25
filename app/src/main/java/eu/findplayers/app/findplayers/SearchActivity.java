@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,13 +45,14 @@ public class SearchActivity extends AppCompatActivity {
         SearchText = (EditText)findViewById(R.id.SearchGame);
         back_arrow = (ImageView)findViewById(R.id.back_arrow);
 
+        load_data_from_server(0);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_games);
         data_list = new ArrayList<>();
-        load_data_from_server(0);
         gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new AllGamesAdapter(this,data_list);
         recyclerView.setAdapter(adapter);
+
 
         //Search
         SearchText.addTextChangedListener(new TextWatcher() {
@@ -67,8 +69,10 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 filter(editable.toString());
+
             }
         });
+
 
         //Back Button
         back_arrow.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +82,12 @@ public class SearchActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     private void filter(String text)

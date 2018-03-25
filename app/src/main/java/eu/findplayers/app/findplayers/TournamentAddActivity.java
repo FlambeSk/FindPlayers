@@ -296,6 +296,7 @@ public class TournamentAddActivity extends AppCompatActivity {
 
                         progressDialog.dismiss();
                         newTournamentID = jsonObject.getInt("lastID");
+                        final String newTournamentImage = jsonObject.getString("lastImage");
                         new SweetAlertDialog(TournamentAddActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Good job!")
                                 .setContentText("Tournament was created!")
@@ -306,6 +307,7 @@ public class TournamentAddActivity extends AppCompatActivity {
                                         Bundle sendBundle = new Bundle();
                                         sendBundle.putInt("tournament_id", newTournamentID);
                                         sendBundle.putString("tournamentName", name);
+                                        sendBundle.putString("tournamentImage", newTournamentImage);
                                         intent.putExtras(sendBundle);
                                         startActivity(intent);
                                     }
