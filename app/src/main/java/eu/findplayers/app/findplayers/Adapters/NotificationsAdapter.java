@@ -1,6 +1,8 @@
 package eu.findplayers.app.findplayers.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.renderscript.Long2;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -116,6 +118,24 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                             .show();
                 }
             });
+
+            //Click on user Photo
+        holder.imageNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer user_id = my_data.get(position).getFrom_id();
+                String user_name = my_data.get(position).getFromName();
+                String profile_img = my_data.get(position).getImage();
+
+                Intent intent = new Intent(context, UserActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                Bundle bundle = new Bundle();
+                bundle.putInt("user_id",user_id);
+                bundle.putString("user_name", user_name);
+                bundle.putString("profile_image", profile_img);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
 
 
 

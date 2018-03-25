@@ -55,6 +55,7 @@
             android:name=".TournamentCardActivity"
             android:label="@string/title_activity_tournament_card"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

@@ -1,26 +1,17 @@
-package eu.findplayers.app.findplayers.Fragments;
-
+package eu.findplayers.app.findplayers;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,71 +23,74 @@ import java.util.List;
 
 import eu.findplayers.app.findplayers.Adapters.AllGamesAdapter;
 import eu.findplayers.app.findplayers.Data.MyData;
-import eu.findplayers.app.findplayers.R;
-import eu.findplayers.app.findplayers.SearchActivity;
-import eu.findplayers.app.findplayers.TournamentAddActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class GamesFragment extends Fragment {
+public class SearchActivity extends AppCompatActivity {
+
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
     private AllGamesAdapter adapter;
     private List<MyData> data_list;
-    private Integer ID;
-    ImageView searchButton;
-    ProgressDialog progressDialog;
-
-
-    public GamesFragment() {
-        // Required empty public constructor
-    }
+    private EditText SearchText;
+    private ImageView back_arrow;
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
 
+        SearchText = (EditText)findViewById(R.id.SearchGame);
+        back_arrow = (ImageView)findViewById(R.id.back_arrow);
 
-        getActivity().setTitle("Games");
-        Bundle bundle = getActivity().getIntent().getExtras();
-        ID = bundle.getInt("id");
-
-
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_games);
         data_list = new ArrayList<>();
-        load_data_from_server(ID);
-        gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        load_data_from_server(0);
+        gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
-        adapter = new AllGamesAdapter(getActivity(),data_list);
+        adapter = new AllGamesAdapter(this,data_list);
         recyclerView.setAdapter(adapter);
 
-
-        searchButton = (ImageView) getActivity().findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        //Search
+        SearchText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
             }
         });
 
-
-
+        //Back Button
+        back_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
+                finish();
+            }
+        });
     }
 
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_games, container, false);
+    private void filter(String text)
+    {
+        ArrayList<MyData> filtredList = new ArrayList<>();
+        for (MyData item : data_list)
+        {
+            if (item.getName().toLowerCase().contains(text.toLowerCase())){
+                filtredList.add(item);
+            }
+        }
+        adapter.filterList(filtredList);
     }
-
 
     private void load_data_from_server(final int id)
     {
@@ -116,7 +110,7 @@ public class GamesFragment extends Fragment {
                     {
                         JSONObject object = array.getJSONObject(i);
 
-                        MyData data = new MyData(object.getInt("id"), object.getString("name"), object.getString("small_image"),ID);
+                        MyData data = new MyData(object.getInt("id"), object.getString("name"), object.getString("small_image"),0);
 
                         data_list.add(data);
                     }

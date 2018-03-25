@@ -308,6 +308,10 @@ public class MainActivity extends AppCompatActivity
             notifiBundle.putInt("logged_id", legged_id);
             intent.putExtras(notifiBundle);
             startActivity(intent);
+        } else if (id == R.id.action_search)
+        {
+            Intent intent = new Intent(this, SearchActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

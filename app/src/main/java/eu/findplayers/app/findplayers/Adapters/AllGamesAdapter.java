@@ -116,6 +116,12 @@ public class AllGamesAdapter extends RecyclerView.Adapter<AllGamesAdapter.ViewHo
         return my_data.size();
     }
 
+    public void filterList(ArrayList<MyData> filteredLIst)
+    {
+        my_data = filteredLIst;
+        notifyDataSetChanged();
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
