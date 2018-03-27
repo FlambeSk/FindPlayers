@@ -10,6 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Pair;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,8 +22,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     public String name_after_login, password_after_login, logged_name;
     SharedPreferences editor;
+    SharedPreferences.Editor editShared;
     String logged_id;
     TextView nav_username;
     ImageView nav_profile_img;
@@ -50,6 +56,8 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar = null;
     Integer legged_id;
     long countNotifications;
+    Switch openDrawer;
+    Boolean Driver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +77,49 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
+        //Check if switch is on or off
+        //If drawer stay open or closed
+        editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        Driver =  editor.getBoolean("openedDriver", true);
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        //If is set to always open Drawer
+        if (Driver)
+        {
+            drawer.openDrawer(GravityCompat.START);
+        }
 
+        toggle.syncState();
 
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+
+
+
+
+        //Switch
+        openDrawer = (Switch) findViewById(R.id.switch1);
+        Menu menu = navigationView.getMenu();
+        MenuItem item = menu.findItem(R.id.nav_switch);
+        View actionToggleView = MenuItemCompat.getActionView(item);
+        openDrawer = actionToggleView.findViewById(R.id.switch1);
+        openDrawer.setChecked(Driver);
+        openDrawer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                String a = String.valueOf(b);
+                editShared = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editShared.putBoolean("openedDriver", b);
+                editShared.apply();
+            }
+        });
 
         legged_id = bundle.getInt("id");
         logged_id = legged_id.toString();

@@ -1,5 +1,6 @@
 package eu.findplayers.app.findplayers.Fragments;
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,16 +10,21 @@ import android.view.ViewGroup;
 import eu.findplayers.app.findplayers.R;
 
 /**
- * Created by DOMA on 20.3.2018.
+ * A simple {@link Fragment} subclass.
  */
+public class Tab4Settings extends Fragment {
 
-public class Tab3Settings extends Fragment {
+
+    public Tab4Settings() {
+        // Required empty public constructor
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab3settings, container, false);
-
-        return rootView;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.tab4settings, container, false);
     }
+
 }

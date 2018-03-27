@@ -83,6 +83,42 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         CharSequence a = DateUtils.getRelativeTimeSpanString(TimeHelpInt,System.currentTimeMillis(),DateUtils.MINUTE_IN_MILLIS, 0);
         holder.time.setText(a);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Sweet alert
+                new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Are you sure?")
+                        .setContentText("Add to friends?")
+                        .setConfirmText("Yes!")
+                        .setCancelText("No!")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                                //Remove pending from Firebase
+                                removeFromPending(notificationsData.getTo_id(),notificationsData.getNotification_data(), itemPos);
+                                //add friends in Findplyers
+                                addFriend(my_data.get(position).getTo_id(),my_data.get(position).getFrom_id());
+
+
+
+                            }
+                        })
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                                //Remove pending from Firebase
+                                removeFromPending(notificationsData.getTo_id(), notificationsData.getNotification_data(), itemPos);
+                                //Remove friend pending from Findplyers
+                                removeFriendPending(my_data.get(position).getTo_id(),my_data.get(position).getFrom_id());
+                            }
+                        })
+                        .show();
+            }
+        });
+/*
             holder.fromTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -118,7 +154,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                             .show();
                 }
             });
-
+*/
             //Click on user Photo
         holder.imageNotification.setOnClickListener(new View.OnClickListener() {
             @Override

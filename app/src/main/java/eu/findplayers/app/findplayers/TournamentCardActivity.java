@@ -1,15 +1,8 @@
 package eu.findplayers.app.findplayers;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -18,24 +11,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.net.URL;
-
 import eu.findplayers.app.findplayers.Fragments.Tab1Tournament;
 import eu.findplayers.app.findplayers.Fragments.Tab2players;
-import eu.findplayers.app.findplayers.Fragments.Tab3Settings;
-import eu.findplayers.app.findplayers.Fragments.TournamentsFragment;
+import eu.findplayers.app.findplayers.Fragments.Tab3Chat;
+import eu.findplayers.app.findplayers.Fragments.Tab4Settings;
 
 public class TournamentCardActivity extends AppCompatActivity {
 
@@ -61,6 +48,8 @@ public class TournamentCardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tournament_card);
+
+        //Bundle from TournamentAdapter(TournamentsFragment) +  TournamentAddActivity
         final Bundle bundle = getIntent().getExtras();
 
         image =  new ImageView(TournamentCardActivity.this);
@@ -149,8 +138,11 @@ public class TournamentCardActivity extends AppCompatActivity {
                     Tab2players tab2players = new Tab2players();
                     return tab2players;
                 case 2:
-                    Tab3Settings tab3Settings = new Tab3Settings();
-                    return tab3Settings;
+                    Tab3Chat tab3Chat = new Tab3Chat();
+                    return tab3Chat;
+                case 3:
+                    Tab4Settings tab4Settings = new Tab4Settings();
+                    return tab4Settings;
                 default:
                         return null;
             }
@@ -159,8 +151,8 @@ public class TournamentCardActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 4 total pages.
+            return 4;
         }
     }
 

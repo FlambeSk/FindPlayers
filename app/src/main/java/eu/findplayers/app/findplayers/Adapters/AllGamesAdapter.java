@@ -119,7 +119,7 @@ public class AllGamesAdapter extends RecyclerView.Adapter<AllGamesAdapter.ViewHo
     public void filterList(ArrayList<MyData> filteredLIst)
     {
         my_data = filteredLIst;
-        notifyDataSetChanged();
+       // notifyDataSetChanged();
     }
 
 

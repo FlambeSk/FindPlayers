@@ -47,9 +47,11 @@ public class Tab1Tournament extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Get ID of logged user
+        //Initialised in HomeFragment
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         logged_id = prefs.getInt("login_id", 0);//"No name defined" is the default value.
 
+        //Get bundle from TournamentsAdapter(TournamentsFragment)
         final Bundle bundle = getActivity().getIntent().getExtras();
 
         tab1 = (TextView) getActivity().findViewById(R.id.tab1);
@@ -91,7 +93,7 @@ public class Tab1Tournament extends Fragment {
             @Override
             public void onResponse(String response) {
                 //response
-                Log.d("Responsea", response);
+                Log.d("Response", response);
 
                 try {
                     JSONArray jsonArray = new JSONArray(response);
