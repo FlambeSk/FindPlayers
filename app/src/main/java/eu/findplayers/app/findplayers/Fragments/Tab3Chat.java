@@ -138,6 +138,7 @@ public class Tab3Chat extends Fragment {
                         String tournament_id = tournamentId.toString();
                         myRef.child(tournament_id).child(key).setValue(groupChatData);
                         sendMessage.setText("");
+                        return true;
                     }
 
 

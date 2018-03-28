@@ -1,72 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayoutTab3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutTab3"
+    tools:context="eu.findplayers.app.findplayers.TournamentCardActivity">
 
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:isScrollContainer="true"
-        android:orientation="vertical"
-        >
-        <LinearLayout
+        android:layout_height="match_parent">
+
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fillViewport="true"
             android:isScrollContainer="true"
             android:orientation="vertical"
-            android:paddingBottom="100dp">
-            <TextView
-                android:id="@+id/tournament_messages_warning"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tournament_messages_warning"
-                android:textSize="20sp"
-                android:textColor="#000"
-                android:visibility="gone"/>
+            >
 
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_tournament_messages"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                android:layout_gravity="top"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginTop="6dp"
-                android:scrollbars="vertical" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tournament_messages_warning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tournament_messages_warning"
+                    android:textSize="20sp"
+                    android:textColor="#000"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_tournament_messages"
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.8"
+                    android:layout_height="450dp"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="6dp"
+                    android:scrollbars="vertical"
+                    card_view:cardCornerRadius="5dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true" />
+
+                <EditText
+                    android:id="@+id/send_message_to_all"
+                    android:layout_width="250dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/input_user"
+                    android:hint="Message"
+                    android:maxLines="1"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:singleLine="true"
+                    android:textColor="#000"
+                    android:textColorHint="#808080"
+                    android:textSize="13dp"
+                    android:inputType="textCapSentences|textAutoCorrect" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
 
 
 
-            <EditText
-                android:id="@+id/send_message_to_all"
-                android:layout_alignParentBottom="true"
-                android:layout_width="250dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/input_user"
-                android:hint="@string/message_box"
-                android:maxLines="1"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:singleLine="true"
-                android:textColor="#000"
-                android:textColorHint="#808080"
-                android:textSize="13sp"
-                android:inputType="textCapSentences|textAutoCorrect" />
-        </LinearLayout>
-    </ScrollView>
-
-
-
-
-
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

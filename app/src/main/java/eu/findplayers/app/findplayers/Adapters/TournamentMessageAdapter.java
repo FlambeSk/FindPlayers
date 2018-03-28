@@ -1,6 +1,8 @@
 package eu.findplayers.app.findplayers.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import eu.findplayers.app.findplayers.Data.GroupChatData;
 import eu.findplayers.app.findplayers.R;
+import eu.findplayers.app.findplayers.UserActivity;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 /**
@@ -54,10 +57,24 @@ public class TournamentMessageAdapter extends RecyclerView.Adapter<TournamentMes
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.message.setText(groupChatData.get(position).getMessage());
         holder.myMessage = groupChatData.get(position).isMyMessage();
         Picasso.with(context).load(groupChatData.get(position).getFromImage()).transform(new CropCircleTransformation()).into(holder.message_picture);
+
+        //Click on user profile image -> UserActivity
+        holder.message_picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, UserActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                Bundle bundle = new Bundle();
+                bundle.putInt("user_id", groupChatData.get(position).getFrom_id());
+                bundle.putString("user_name", groupChatData.get(position).getFromName());
+                bundle.putString("profile_image", groupChatData.get(position).getFromImage());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

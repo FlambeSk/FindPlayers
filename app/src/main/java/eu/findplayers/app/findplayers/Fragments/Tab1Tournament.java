@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +41,7 @@ public class Tab1Tournament extends Fragment {
     TextView tab1, tournamentName,tournamentIsFull;
     Integer tournament_id, logged_id;
     Button addToTournament, removeFromTournament;
+    String tournamName;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     @Override
@@ -59,8 +61,11 @@ public class Tab1Tournament extends Fragment {
         addToTournament = (Button) getActivity().findViewById(R.id.addToTournament);
         removeFromTournament = (Button) getActivity().findViewById(R.id.removeFromTournament);
         tournamentIsFull = (TextView) getActivity().findViewById(R.id.tournamentIsFull);
-        tournamentName.setText(bundle.getString("tournamentName"));
+        tournamName = bundle.getString("tournamentName");
+        tournamentName.setText(tournamName);
         tournament_id = bundle.getInt("tournament_id");
+
+
 
         getTournament(tournament_id);
 
@@ -184,8 +189,11 @@ public class Tab1Tournament extends Fragment {
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                     String code = jsonObject.getString("code");
                     String message = jsonObject.getString("message");
+                    String tournID = String.valueOf(tournament_id);
                     if (code.equals("OK"))
                     {
+                        //Set subscribe notification to Tournament Name
+                        FirebaseMessaging.getInstance().subscribeToTopic("tournament"+tournID);
                         new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Good job!")
                                 .setContentText(message)
@@ -257,8 +265,11 @@ public class Tab1Tournament extends Fragment {
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                     String code = jsonObject.getString("code");
                     String message = jsonObject.getString("message");
+                    String tournID = String.valueOf(tournament_id);
                     if (code.equals("OK"))
                     {
+                        //Unsubscribe notification to Tournament Name
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("tournament"+tournID);
                         new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Good job!")
                                 .setContentText(message)

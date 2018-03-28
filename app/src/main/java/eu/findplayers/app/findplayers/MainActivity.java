@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Pair;
+import android.view.SubMenu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -123,6 +126,72 @@ public class MainActivity extends AppCompatActivity
 
         legged_id = bundle.getInt("id");
         logged_id = legged_id.toString();
+
+        //create Messages Notifications
+        MenuItem Messages = menu.findItem(R.id.nav_messages);
+
+
+        //Firebase Notifications
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference reference = database.getReference();
+        final DatabaseReference count = reference.child("notifications");
+        LinearLayout linearLayoutt = (LinearLayout)findViewById(R.id.messages_notifi) ;
+
+        count.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                countNotifications = dataSnapshot.getChildrenCount();
+                String childer = dataSnapshot.getKey();
+                if (childer.equals(logged_id)){
+                    if (countNotifications > 0)
+                    {
+                        navigationView.getMenu().getItem(1).setActionView(R.layout.messages_news_icon);
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                countNotifications = dataSnapshot.getChildrenCount();
+                String childer = dataSnapshot.getKey();
+                if (childer.equals(logged_id)){
+                    if (countNotifications > 0)
+                    {
+                        navigationView.getMenu().getItem(1).setActionView(R.layout.messages_news_icon);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                countNotifications = dataSnapshot.getChildrenCount();
+                String childer = dataSnapshot.getKey();
+                if (childer.equals(logged_id)){
+                    if (countNotifications > 0)
+                    {
+                        navigationView.getMenu().getItem(1).setActionView(R.layout.messages_news_icon);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         //Set subscribe notification to User ID
         FirebaseMessaging.getInstance().subscribeToTopic(logged_id);

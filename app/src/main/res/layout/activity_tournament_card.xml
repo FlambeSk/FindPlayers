@@ -24,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_weight="1"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/PopupOverlay"
             app:titleTextColor="@color/colorWhite"
             app:title="@string/app_name">
@@ -76,4 +75,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
+
 </android.support.design.widget.CoordinatorLayout>
+
