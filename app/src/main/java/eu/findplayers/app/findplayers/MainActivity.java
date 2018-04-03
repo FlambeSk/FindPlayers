@@ -458,8 +458,6 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, tournamentsFragment, "TournamentFragment");
             fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_share) {
-
         } else if (id == R.id.nav_logout) {
 
             editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);

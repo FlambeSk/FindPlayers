@@ -157,8 +157,9 @@ public class TournamentsFragment extends Fragment {
                         String tournamentImage = jsonObject.getString("tournament_image");
                         Integer tournamentID = jsonObject.getInt("tournamentID");
                         String countt = jsonObject.getString("counts");
+                        String startAt = jsonObject.getString("start");
 
-                        TournamentData data = new TournamentData(tournamentID, tournamentName, tournamentImage, countt);
+                        TournamentData data = new TournamentData(tournamentID, tournamentName, tournamentImage, countt, startAt);
                         myTournamentsData.add(data);
                         myTournamentsAdapter.notifyDataSetChanged();
                     }
@@ -216,8 +217,9 @@ public class TournamentsFragment extends Fragment {
                         String tournamentImage = jsonObject.getString("tournament_image");
                         Integer tournamentID = jsonObject.getInt("tournamentID");
                         String countt = jsonObject.getString("counts");
+                        String startAt = jsonObject.getString("start");
 
-                        TournamentData data = new TournamentData(tournamentID, tournamentName, tournamentImage, countt);
+                        TournamentData data = new TournamentData(tournamentID, tournamentName, tournamentImage, countt, startAt);
                         tournamentData.add(data);
                         tournamentsAdapter.notifyDataSetChanged();
                     }
@@ -275,8 +277,9 @@ public class TournamentsFragment extends Fragment {
                         String tournamentImage = jsonObject.getString("tournament_image");
                         Integer tournamentID = jsonObject.getInt("tournamentID");
                         String countt = jsonObject.getString("counts");
+                        String startAt = jsonObject.getString("start");
 
-                        TournamentData data = new TournamentData(tournamentID, tournamentName, tournamentImage, countt);
+                        TournamentData data = new TournamentData(tournamentID, tournamentName, tournamentImage, countt, startAt);
                         tournamentBiggestData.add(data);
                         tournamentBiggestAdapter.notifyDataSetChanged();
                     }

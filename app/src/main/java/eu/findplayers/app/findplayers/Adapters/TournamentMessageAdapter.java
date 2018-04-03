@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,6 +62,7 @@ public class TournamentMessageAdapter extends RecyclerView.Adapter<TournamentMes
         holder.message.setText(groupChatData.get(position).getMessage());
         holder.myMessage = groupChatData.get(position).isMyMessage();
         Picasso.with(context).load(groupChatData.get(position).getFromImage()).transform(new CropCircleTransformation()).into(holder.message_picture);
+        holder.showName.setText(groupChatData.get(position).getFromName());
 
         //Click on user profile image -> UserActivity
         holder.message_picture.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +85,7 @@ public class TournamentMessageAdapter extends RecyclerView.Adapter<TournamentMes
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView message;
+        public TextView message, showName;
         public boolean myMessage;
         public ImageView message_picture;
 
@@ -91,6 +93,7 @@ public class TournamentMessageAdapter extends RecyclerView.Adapter<TournamentMes
             super(itemView);
             message = (TextView) itemView.findViewById(R.id.txt_msg);
             message_picture = (ImageView)itemView.findViewById(R.id.message_picture);
+            showName = (TextView) itemView.findViewById(R.id.showName);
         }
     }
 }

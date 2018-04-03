@@ -7,13 +7,14 @@ package eu.findplayers.app.findplayers.Data;
 public class TournamentData {
 
     private int tournamentID;
-    private String tournamnetName,tournamentImage, playersCount;
+    private String tournamnetName,tournamentImage, playersCount, startAt;
 
-    public TournamentData(int tournamentID, String tournamnetName, String tournamentImage, String playersCount) {
+    public TournamentData(int tournamentID, String tournamnetName, String tournamentImage, String playersCount, String startAt) {
         this.tournamentID = tournamentID;
         this.tournamnetName = tournamnetName;
         this.tournamentImage = tournamentImage;
         this.playersCount = playersCount;
+        this.startAt = startAt;
     }
 
     public int getTournamentID() {
@@ -46,5 +47,13 @@ public class TournamentData {
 
     public void setPlayersCount(String playersCount) {
         this.playersCount = playersCount;
+    }
+
+    public String getStartAt() {
+        return startAt;
+    }
+
+    public void setStartAt(String startAt) {
+        this.startAt = startAt;
     }
 }

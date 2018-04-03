@@ -77,7 +77,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestStoragePermission();
         setContentView(R.layout.activity_profile);
 
         profile_image = (ImageView) findViewById(R.id.profile_image);
@@ -123,6 +122,7 @@ public class ProfileActivity extends AppCompatActivity {
         choose_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                requestStoragePermission();
                 showFileChooser();
             }
         });
@@ -136,6 +136,8 @@ public class ProfileActivity extends AppCompatActivity {
                 progressDialog.setMessage("Please wait...");
                 progressDialog.setIndeterminate(false);
                 progressDialog.show();
+                progressDialog.setCancelable(false);
+                progressDialog.setCanceledOnTouchOutside(false);
                 uploadImage(bitmap, user_id);
             }
         });
