@@ -7,7 +7,7 @@
     <string name="action_settings">Settings</string>
     <string name="remove_edit">Remove Game From Library</string>
     <string name="add_edit">Add Game to Library</string>
-    <string name="switch_drawer">Open on application start</string>
+    <string name="switch_drawer">Open on start</string>
     <string name="tournament_messages_warning">You need to be in tournament to seeing messages</string>
     <string name="message_box">Message</string>
 

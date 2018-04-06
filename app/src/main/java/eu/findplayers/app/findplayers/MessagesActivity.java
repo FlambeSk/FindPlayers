@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,12 +47,14 @@ public class MessagesActivity extends AppCompatActivity {
     public String friendName, msg, logged_name;
     public Integer friendId, loggedId;
     EditText send_news;
-    Integer msg_order = 999999999;
     TextView Friend_name;
     ImageView back_arrow;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
 
-
+    //Help
+    //ServerValue.TIMESTAMP
+    String MSG_friendName,MSG_true,MSG_message_key;
+    Integer MSG_childValue,MSG_child2;
 
 
     @Override
@@ -96,8 +99,18 @@ public class MessagesActivity extends AppCompatActivity {
         final DatabaseReference messageRef = database.getReference();
         final DatabaseReference mess = messageRef.child("messages");
 
-        Query query = mess.orderByChild("timestamp").limitToLast(20).equalTo("1519905574865");
+        Query query = mess.orderByChild("from_id").equalTo(friendId.toString());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         mess.addChildEventListener(new ChildEventListener() {
@@ -108,27 +121,37 @@ public class MessagesActivity extends AppCompatActivity {
                 String eq_to_id = friendId.toString();
                 String childValue = String.valueOf(dataSnapshot.child("from_id").getValue());
                 String child2 = String.valueOf(dataSnapshot.child("to_id").getValue());
+                String isRead = String.valueOf(dataSnapshot.child("isRead").getValue());
+                String message_key = String.valueOf(dataSnapshot.child("message_key").getValue());
+                String friendName = String.valueOf(dataSnapshot.child("friendName").getValue());
+                String time = String.valueOf(dataSnapshot.child("timestamp").getValue());
                 msg = String.valueOf(dataSnapshot.child("message").getValue());
+
+                ////////////
+                MSG_friendName = friendName;
+                MSG_true = "true";
+                MSG_child2 = Integer.valueOf(child2);
+                MSG_childValue = Integer.valueOf(childValue);
+                MSG_message_key = message_key;
+
+                //TODO timestamp
 
                if (childValue.equals(eq_from_id) && child2.equals(eq_to_id) || childValue.equals(eq_to_id) && child2.equals(eq_from_id))
                 {
                     if (childValue.equals(eq_from_id) && child2.equals(eq_to_id)){
-                        MessageData data = new MessageData(msg, friendName, true, loggedId, friendId, ServerValue.TIMESTAMP, msg_order);
+                        MessageData data = new MessageData(msg, friendName, isRead, message_key, time,true,  Integer.valueOf(childValue), Integer.valueOf(child2));
                         messageData.add(data);
                         messageAdapter.notifyDataSetChanged();
                         linearLayoutManager.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
                     } else{
-                        MessageData data = new MessageData(msg, friendName, false, loggedId, friendId, ServerValue.TIMESTAMP, msg_order);
+                        MessageData data = new MessageData(msg, friendName, "true", message_key, time,false, Integer.valueOf(childValue), Integer.valueOf(child2));
                         messageData.add(data);
                         messageAdapter.notifyDataSetChanged();
                         linearLayoutManager.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
+
+                        myRef.child(message_key).setValue(data);
                     }
-
                 }
-
-
-
-
             }
 
             @Override
@@ -171,8 +194,11 @@ public class MessagesActivity extends AppCompatActivity {
                     // myRef.child(id).setValue("njkk");
                     if(!new_news.equals(""))
                     {
+
+                        Long tsLong = System.currentTimeMillis()/1000;
+                        String timestamp = tsLong.toString();
                         //Message Data
-                        MessageData messageData = new MessageData(new_news, friendName, true, loggedId, friendId, ServerValue.TIMESTAMP, msg_order);
+                        MessageData messageData = new MessageData(new_news, friendName, "false",id, timestamp, true, loggedId, friendId);
 
                         //Save data to Firebase Database
                         myRef.child(id).setValue(messageData);

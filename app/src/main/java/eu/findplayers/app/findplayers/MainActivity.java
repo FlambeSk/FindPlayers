@@ -31,6 +31,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,9 +66,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
+
 
         //Getting logged user and set header
         final Bundle bundle = getIntent().getExtras();
@@ -76,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     {
         HomeFragment homeFragment = new HomeFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, homeFragment);
+        fragmentTransaction.replace(R.id.fragment_container, homeFragment, "HomeFragment");
         fragmentTransaction.commit();
     }
 
@@ -85,11 +91,22 @@ public class MainActivity extends AppCompatActivity
         editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         Driver =  editor.getBoolean("openedDriver", true);
 
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+
+        //Change  Drawer Icon when new messages
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+
         //If is set to always open Drawer
         if (Driver)
         {
@@ -134,7 +151,7 @@ public class MainActivity extends AppCompatActivity
         //Firebase Notifications
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference reference = database.getReference();
-        final DatabaseReference count = reference.child("notifications");
+        final DatabaseReference count = reference.child("messages");
         LinearLayout linearLayoutt = (LinearLayout)findViewById(R.id.messages_notifi) ;
 
         count.addChildEventListener(new ChildEventListener() {
@@ -142,12 +159,12 @@ public class MainActivity extends AppCompatActivity
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 countNotifications = dataSnapshot.getChildrenCount();
-                String childer = dataSnapshot.getKey();
-                if (childer.equals(logged_id)){
-                    if (countNotifications > 0)
-                    {
+                String isRead = String.valueOf(dataSnapshot.child("isRead").getValue());
+                //Integer to_id = dataSnapshot.child("to_id").getValue(Integer.class);
+                String childer = String.valueOf(dataSnapshot.child("to_id").getValue());
+                if (childer.equals(logged_id) && isRead.equals("false")){
                         navigationView.getMenu().getItem(1).setActionView(R.layout.messages_news_icon);
-                    }
+                        toggle.setHomeAsUpIndicator(R.drawable.drawer_new);
 
                 }
 
@@ -156,13 +173,16 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 countNotifications = dataSnapshot.getChildrenCount();
-                String childer = dataSnapshot.getKey();
-                if (childer.equals(logged_id)){
-                    if (countNotifications > 0)
-                    {
+                String isRead = String.valueOf(dataSnapshot.child("isRead").getValue());
+                //Integer to_id = dataSnapshot.child("to_id").getValue(Integer.class);
+                String childer = String.valueOf(dataSnapshot.child("to_id").getValue());
+                if (childer.equals(logged_id)  && isRead.equals("false")){
                         navigationView.getMenu().getItem(1).setActionView(R.layout.messages_news_icon);
-                    }
-
+                        toggle.setHomeAsUpIndicator(R.drawable.drawer_new);
+                }else
+                {
+                    navigationView.getMenu().getItem(1).setActionView(null);
+                    toggle.setHomeAsUpIndicator(R.drawable.ic_drawer);
                 }
             }
 
@@ -170,13 +190,11 @@ public class MainActivity extends AppCompatActivity
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
                 countNotifications = dataSnapshot.getChildrenCount();
-                String childer = dataSnapshot.getKey();
-                if (childer.equals(logged_id)){
-                    if (countNotifications > 0)
-                    {
+                String isRead = String.valueOf(dataSnapshot.child("isRead").getValue());
+                //Integer to_id = dataSnapshot.child("to_id").getValue(Integer.class);
+                String childer = String.valueOf(dataSnapshot.child("to_id").getValue());
+                if (childer.equals(logged_id)  && isRead.equals("false")){
                         navigationView.getMenu().getItem(1).setActionView(R.layout.messages_news_icon);
-                    }
-
                 }
             }
 
@@ -224,6 +242,8 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        toggle.syncState();
     }
 
     @Override
@@ -435,7 +455,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             HomeFragment homeFragment = new HomeFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, homeFragment);
+            fragmentTransaction.replace(R.id.fragment_container, homeFragment, "HomeFragment");
             fragmentTransaction.commit();
         } else if (id == R.id.nav_messages) {
 

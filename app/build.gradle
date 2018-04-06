@@ -16,7 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
@@ -40,5 +40,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:11.8.0'
     compile 'com.github.f0ris.sweetalert:library:1.5.1'
     compile 'net.gotev:uploadservice:3.4.2'
+    implementation 'com.facebook.fresco:fresco:1.8.1'
+    compile 'com.github.stfalcon:frescoimageviewer:0.5.0'
 }
 apply plugin: 'com.google.gms.google-services'
