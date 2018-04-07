@@ -207,7 +207,7 @@ public class HomeFragment extends Fragment {
                         Long tsLong = System.currentTimeMillis()/1000;
                         String timestamp = tsLong.toString();
                         //set Data
-                        NewsData newsData = new NewsData(key, profileName, profileImage, news, "text", timestamp, "no image", userID);
+                        NewsData newsData = new NewsData(key, profileName, profileImage, news, "text", timestamp, "no image", userID, 0);
                         String userid = userID.toString();
                         myRef.child(key).setValue(newsData);
 
@@ -230,7 +230,7 @@ public class HomeFragment extends Fragment {
                         Long tsLong = System.currentTimeMillis()/1000;
                         String timestamp = tsLong.toString();
                         //set Data
-                        NewsData newsData = new NewsData(key, profileName, profileImage, news, "image", timestamp, "https://findplayers.eu/uploads/news/"+image_for_upload_name+".jpeg", userID);
+                        NewsData newsData = new NewsData(key, profileName, profileImage, news, "image", timestamp, "https://findplayers.eu/uploads/news/"+image_for_upload_name+".jpeg", userID, 0);
                         String userid = userID.toString();
 
                         send_image_news(image_for_upload_name, bitmap);
@@ -473,7 +473,7 @@ public class HomeFragment extends Fragment {
                     for (int i=1; i<friendsSize; i++)
                     {
                         if (fromIDString.equals(friendsOneByOne[i])){
-                            NewsData data = new NewsData(key, name, fromImage, message, type, timestamp, image, fromID);
+                            NewsData data = new NewsData(key, name, fromImage, message, type, timestamp, image, fromID, userID);
                             newsData.add(data);
                             newsAdapter.notifyDataSetChanged();
                             linearLayoutManager.scrollToPosition(recycler_view_news.getAdapter().getItemCount()-1);
@@ -482,7 +482,7 @@ public class HomeFragment extends Fragment {
 
                     //showing my news
                     if (fromIDString.equals(userIDString)){
-                        NewsData data = new NewsData(key, name, fromImage, message, type, timestamp, image, fromID);
+                        NewsData data = new NewsData(key, name, fromImage, message, type, timestamp, image, fromID, userID);
                         newsData.add(data);
                         newsAdapter.notifyDataSetChanged();
                         linearLayoutManager.scrollToPosition(recycler_view_news.getAdapter().getItemCount()-1);

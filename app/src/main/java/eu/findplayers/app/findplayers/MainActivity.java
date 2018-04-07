@@ -230,16 +230,7 @@ public class MainActivity extends AppCompatActivity
                 profile_bundle.putString("profile_name", bundle.getString("name"));
                 profile_bundle.putString("profile_image", bundle.getString("profile_image"));
                 intent.putExtras(profile_bundle);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, findViewById(R.id.nav_profile_img), "profileImageTransition");
-                    MainActivity.this.startActivity(intent, options.toBundle());
-                } else
-                {
-                    MainActivity.this.startActivity(intent);
-                }
-
-
+                MainActivity.this.startActivity(intent);
             }
         });
 

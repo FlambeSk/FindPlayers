@@ -3,9 +3,9 @@ package eu.findplayers.app.findplayers.Data;
 public class NewsData {
 
     String key, fromName, fromImage, message, type, timestamp, image;
-    Integer fromID;
+    Integer fromID, loggedID;
 
-    public NewsData(String key, String fromName, String fromImage, String message, String type, String timestamp, String image, Integer fromID) {
+    public NewsData(String key, String fromName, String fromImage, String message, String type, String timestamp, String image, Integer fromID, Integer loggedID) {
         this.key = key;
         this.fromName = fromName;
         this.fromImage = fromImage;
@@ -14,6 +14,7 @@ public class NewsData {
         this.timestamp = timestamp;
         this.image = image;
         this.fromID = fromID;
+        this.loggedID = loggedID;
     }
 
     public String getKey() {
@@ -78,5 +79,13 @@ public class NewsData {
 
     public void setFromID(Integer fromID) {
         this.fromID = fromID;
+    }
+
+    public Integer getLoggedID() {
+        return loggedID;
+    }
+
+    public void setLoggedID(Integer loggedID) {
+        this.loggedID = loggedID;
     }
 }

@@ -59,7 +59,7 @@ public class UserActivity extends AppCompatActivity {
     private ProfileGamesAdapter adapter;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     Bundle bundle;
-    String loggedName, loggedImage;
+    String loggedName, loggedImage, profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class UserActivity extends AppCompatActivity {
         profile_id = bundle.getInt("user_id");
 
         profile_name.setText(bundle.getString("user_name"));
-        Picasso.with(UserActivity.this).load(bundle.getString("profile_image")).transform(new CropCircleTransformation()).into(profile_image);
+        get_user(profile_id);
 
         //Setting Friend request button
         friend_request_buttons(logged_id, profile_id);
@@ -351,5 +351,46 @@ public class UserActivity extends AppCompatActivity {
         myRef.child(idTo).child(keys).setValue(notificationsData);
 
 
+    }
+
+    public void get_user(final int from)
+    {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //response
+                Log.d("Response", response);
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    String respons = jsonObject.getString("response");
+                    profileImage = jsonObject.getString("profile_image");
+                    Picasso.with(UserActivity.this).load(profileImage).transform(new CropCircleTransformation()).into(profile_image);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                String userID = String.valueOf(from);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("get_user_data", "true");
+                params.put("userID", userID);
+                return params;
+            }
+        };
+        MySingleton.getInstance(UserActivity.this).addToRequestque(stringRequest);
     }
 }

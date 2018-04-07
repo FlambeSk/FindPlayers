@@ -71,6 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Bitmap bitmap;
     ProgressDialog progressDialog;
     Integer user_id;
+    String profileImage;
 
 
 
@@ -86,7 +87,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Getting info from bundle
         Bundle bundle = getIntent().getExtras();
-        Picasso.with(ProfileActivity.this).load(bundle.getString("profile_image")).transform(new CropCircleTransformation()).into(profile_image);
         profile_name.setText(bundle.getString("profile_name"));
 
         //Populate RecyclerView with Games
@@ -100,6 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Populate Friends Recycler View
         user_id = bundle.getInt("profile_id");
+        get_user(bundle.getInt("profile_id"));
         load_friends_from_server(user_id);
         friends_list = new ArrayList<>();
         recyclerViewFriends = (RecyclerView) findViewById(R.id.recycler_view_friends_profile);
@@ -333,6 +334,47 @@ public class ProfileActivity extends AppCompatActivity {
                 params.put("upload_profile_image", "true");
                 params.put("profile_id", id);
                 params.put("image", image);
+                return params;
+            }
+        };
+        MySingleton.getInstance(ProfileActivity.this).addToRequestque(stringRequest);
+    }
+
+    public void get_user(final int from)
+    {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //response
+                Log.d("Response", response);
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    String respons = jsonObject.getString("response");
+                    profileImage = jsonObject.getString("profile_image");
+                    Picasso.with(ProfileActivity.this).load(profileImage).transform(new CropCircleTransformation()).into(profile_image);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                String userID = String.valueOf(from);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("get_user_data", "true");
+                params.put("userID", userID);
                 return params;
             }
         };

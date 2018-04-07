@@ -107,18 +107,7 @@ public class ProfileGamesAdapter extends RecyclerView.Adapter<ProfileGamesAdapte
                 bundle.putString("game_name", game_name);
                 bundle.putString("game_image", image);
                 intent.putExtras(bundle);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context, Pair.create(view, "imageTransition"));
-
-                    context.startActivity(intent, options.toBundle());
-                } else
-                {
-                    context.startActivity(intent);
-                }
-
-
+                context.startActivity(intent);
             }
         });
     }

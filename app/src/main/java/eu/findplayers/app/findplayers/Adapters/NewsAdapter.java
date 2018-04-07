@@ -1,30 +1,46 @@
 package eu.findplayers.app.findplayers.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eu.findplayers.app.findplayers.Data.NewsData;
+import eu.findplayers.app.findplayers.ForLogin.MySingleton;
+import eu.findplayers.app.findplayers.ProfileActivity;
 import eu.findplayers.app.findplayers.R;
+import eu.findplayers.app.findplayers.UserActivity;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private static Context context;
     private List<NewsData> newsData;
+    private int fromID;
+    String profileImage, profileImageString;
 
     public NewsAdapter(Context context, List<NewsData> newsData)
     {
@@ -73,7 +89,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.message.setText(newsData.get(position).getMessage());
         //Glide.with(context).load(newsData.get(position).getImage()).into(holder.image);
 
-        Picasso.with(context).load(newsData.get(position).getFromImage()).transform(new CropCircleTransformation()).into(holder.news_user_image);
+
+        //User Image
+        get_user_imageView(newsData.get(position).getFromID(), holder.news_user_image);
+
+        //Picasso.with(context).load(newsData.get(position).getFromImage()).transform(new CropCircleTransformation()).into(holder.news_user_image);
         final Uri uri = Uri.parse(newsData.get(position).getImage());
         holder.draweeView.setImageURI(uri);
 
@@ -96,6 +116,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         // CharSequence a = DateUtils.getRelativeDateTimeString(context,TimeHelpInt,DateUtils.SECOND_IN_MILLIS,DateUtils.DAY_IN_MILLIS, 0);
         CharSequence t = DateUtils.getRelativeTimeSpanString(TimeHelpInt,System.currentTimeMillis(),DateUtils.MINUTE_IN_MILLIS, 0);
         holder.timestamp.setText(t);
+
+        get_user(newsData.get(position).getFromID());
+
+        //On profile image click
+        holder.news_user_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (newsData.get(position).getLoggedID() != newsData.get(position).getFromID())
+                {
+                    Intent intent = new Intent(context, UserActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("user_id",newsData.get(position).getFromID());
+                    bundle.putString("user_name", newsData.get(position).getFromName());
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, ProfileActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("profile_id", newsData.get(position).getLoggedID());
+                    bundle.putString("profile_name", newsData.get(position).getFromName());
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+
+            }
+        });
 
     }
 
@@ -120,5 +167,87 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             news_user_image = (ImageView) itemView.findViewById(R.id.news_user_image);
             timestamp = (TextView) itemView.findViewById(R.id.timestamp);
         }
+    }
+
+    public void get_user_imageView(final int from, final ImageView a)
+    {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //response
+                Log.d("Response", response);
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    String respons = jsonObject.getString("response");
+                    profileImage = jsonObject.getString("profile_image");
+                    Picasso.with(context).load(profileImage).transform(new CropCircleTransformation()).into(a);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                String userID = String.valueOf(from);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("get_user_data", "true");
+                params.put("userID", userID);
+                return params;
+            }
+        };
+        MySingleton.getInstance(context).addToRequestque(stringRequest);
+    }
+
+    public void get_user(final int from)
+    {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //response
+                Log.d("Response", response);
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    String respons = jsonObject.getString("response");
+                    profileImageString = jsonObject.getString("profile_image");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                String userID = String.valueOf(from);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("get_user_data", "true");
+                params.put("userID", userID);
+                return params;
+            }
+        };
+        MySingleton.getInstance(context).addToRequestque(stringRequest);
     }
 }
