@@ -99,19 +99,6 @@ public class MessagesActivity extends AppCompatActivity {
         final DatabaseReference messageRef = database.getReference();
         final DatabaseReference mess = messageRef.child("messages");
 
-        Query query = mess.orderByChild("from_id").equalTo(friendId.toString());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
 
         mess.addChildEventListener(new ChildEventListener() {
             @Override
@@ -149,7 +136,7 @@ public class MessagesActivity extends AppCompatActivity {
                         messageAdapter.notifyDataSetChanged();
                         linearLayoutManager.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
 
-                        myRef.child(message_key).setValue(data);
+                        //myRef.child(message_key).setValue(data);
                     }
                 }
             }
@@ -274,5 +261,64 @@ public class MessagesActivity extends AppCompatActivity {
             }
         };
         MySingleton.getInstance(MessagesActivity.this).addToRequestque(stringRequest);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //set firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference("messages");
+        final DatabaseReference messageRef = database.getReference();
+        final DatabaseReference mess = messageRef.child("messages");
+
+        mess.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                String eq_from_id = loggedId.toString();
+                String eq_to_id = friendId.toString();
+                String childValue = String.valueOf(dataSnapshot.child("from_id").getValue());
+                String child2 = String.valueOf(dataSnapshot.child("to_id").getValue());
+                String isRead = String.valueOf(dataSnapshot.child("isRead").getValue());
+                String message_key = String.valueOf(dataSnapshot.child("message_key").getValue());
+                String friendName = String.valueOf(dataSnapshot.child("friendName").getValue());
+                String time = String.valueOf(dataSnapshot.child("timestamp").getValue());
+                msg = String.valueOf(dataSnapshot.child("message").getValue());
+
+                //TODO timestamp
+
+                if (childValue.equals(eq_from_id) && child2.equals(eq_to_id) || childValue.equals(eq_to_id) && child2.equals(eq_from_id))
+                {
+                    if (childValue.equals(eq_from_id) && child2.equals(eq_to_id)){
+
+                    } else{
+                        MessageData data = new MessageData(msg, friendName, "true", message_key, time,false, Integer.valueOf(childValue), Integer.valueOf(child2));
+
+                        myRef.child(message_key).setValue(data);
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

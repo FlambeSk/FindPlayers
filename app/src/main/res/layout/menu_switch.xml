@@ -9,8 +9,6 @@
         android:id="@+id/switch1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/switch_drawer"
         android:paddingTop="16dp"
-        android:paddingRight="46dp"
         android:paddingBottom="16dp"/>
 </LinearLayout>

@@ -32,27 +32,11 @@
         android:id="@+id/menu_bottom">
 
         <item
-            android:title=""
             android:id="@+id/nav_switch"
-            app:actionLayout="@layout/menu_switch"
+            android:title="Open on start"
 
-            />
+            app:actionLayout="@layout/menu_switch" />
 
     </group>
-
-
-   <!-- <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Log Out" />
-        </menu>
-    </item>
-    -->
 
 </menu>
