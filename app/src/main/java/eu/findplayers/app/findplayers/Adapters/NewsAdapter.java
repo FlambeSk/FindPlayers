@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
@@ -92,6 +95,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         //User Image
         get_user_imageView(newsData.get(position).getFromID(), holder.news_user_image);
+        get_user_imageView(newsData.get(position).getLoggedID(), holder.comment_user_image);
 
         //Picasso.with(context).load(newsData.get(position).getFromImage()).transform(new CropCircleTransformation()).into(holder.news_user_image);
         final Uri uri = Uri.parse(newsData.get(position).getImage());
@@ -144,6 +148,24 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             }
         });
 
+
+        //set firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference("news_comments");
+
+        //Get string of comment EditText
+        String comment = holder.comment_edit_text.getText().toString();
+        if (!comment.equals(""))
+        {
+            //On send comment
+            holder.comment_send_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+        }
+
     }
 
     @Override
@@ -156,7 +178,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public TextView name, message, timestamp;
         public SimpleDraweeView draweeView;
         public String type;
-        public ImageView news_user_image;
+        public ImageView news_user_image, comment_user_image, comment_send_button;
+        public EditText comment_edit_text;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -166,6 +189,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             draweeView.getHierarchy().setProgressBarImage(new ProgressBarDrawable());
             news_user_image = (ImageView) itemView.findViewById(R.id.news_user_image);
             timestamp = (TextView) itemView.findViewById(R.id.timestamp);
+            comment_user_image = (ImageView) itemView.findViewById(R.id.comment_user_image);
+            comment_send_button = (ImageView) itemView.findViewById(R.id.comment_send_button);
+            comment_edit_text = (EditText) itemView.findViewById(R.id.comment_edit_text);
         }
     }
 

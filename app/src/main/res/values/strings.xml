@@ -20,4 +20,8 @@
     <string name="tab_text_3">Chat</string>
     <string name="tab_text_4">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="add_coment">Add comment</string>
+    <string name="user_games">User Games</string>
+    <string name="friends">Friends</string>
 </resources>

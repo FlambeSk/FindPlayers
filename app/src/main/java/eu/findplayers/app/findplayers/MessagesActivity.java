@@ -50,6 +50,7 @@ public class MessagesActivity extends AppCompatActivity {
     TextView Friend_name;
     ImageView back_arrow;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
+    FirebaseDatabase database;
 
     //Help
     //ServerValue.TIMESTAMP
@@ -94,10 +95,13 @@ public class MessagesActivity extends AppCompatActivity {
 //        Toast.makeText(this, friendId + loggedId, Toast.LENGTH_SHORT).show();
 
         //set firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("messages");
+        final DatabaseReference newMess = database.getReference("newMessages");
         final DatabaseReference messageRef = database.getReference();
         final DatabaseReference mess = messageRef.child("messages");
+
+        newMess.child(loggedId+"_"+friendId).removeValue();
 
 
         mess.addChildEventListener(new ChildEventListener() {
@@ -189,6 +193,7 @@ public class MessagesActivity extends AppCompatActivity {
 
                         //Save data to Firebase Database
                         myRef.child(id).setValue(messageData);
+                        newMess.child(friendId+"_"+loggedId).setValue(messageData);
 
                         //Send notification to another user
                        sendNotification(friendId,loggedId, logged_name,new_news);
@@ -263,62 +268,5 @@ public class MessagesActivity extends AppCompatActivity {
         MySingleton.getInstance(MessagesActivity.this).addToRequestque(stringRequest);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //set firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("messages");
-        final DatabaseReference messageRef = database.getReference();
-        final DatabaseReference mess = messageRef.child("messages");
 
-        mess.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                String eq_from_id = loggedId.toString();
-                String eq_to_id = friendId.toString();
-                String childValue = String.valueOf(dataSnapshot.child("from_id").getValue());
-                String child2 = String.valueOf(dataSnapshot.child("to_id").getValue());
-                String isRead = String.valueOf(dataSnapshot.child("isRead").getValue());
-                String message_key = String.valueOf(dataSnapshot.child("message_key").getValue());
-                String friendName = String.valueOf(dataSnapshot.child("friendName").getValue());
-                String time = String.valueOf(dataSnapshot.child("timestamp").getValue());
-                msg = String.valueOf(dataSnapshot.child("message").getValue());
-
-                //TODO timestamp
-
-                if (childValue.equals(eq_from_id) && child2.equals(eq_to_id) || childValue.equals(eq_to_id) && child2.equals(eq_from_id))
-                {
-                    if (childValue.equals(eq_from_id) && child2.equals(eq_to_id)){
-
-                    } else{
-                        MessageData data = new MessageData(msg, friendName, "true", message_key, time,false, Integer.valueOf(childValue), Integer.valueOf(child2));
-
-                        myRef.child(message_key).setValue(data);
-                    }
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 }

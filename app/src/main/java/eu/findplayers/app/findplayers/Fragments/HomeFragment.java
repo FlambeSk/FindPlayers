@@ -37,6 +37,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,6 +96,7 @@ public class HomeFragment extends Fragment {
     List<NewsData> newsData;
 
     NestedScrollView nestedScrollView;
+    ProgressBar load_news;
 
     private static final int PICK_IMAGE_REQUEST = 22;
     private static final int STORAGE_PERMISSION_CODE = 2342;
@@ -121,6 +123,7 @@ public class HomeFragment extends Fragment {
         add_news_image = (ImageView) getActivity().findViewById(R.id.add_news_image);
         image_for_upload = (ImageView) getActivity().findViewById(R.id.image_for_upload);
         nestedScrollView = (NestedScrollView) getActivity().findViewById(R.id.NestedScrollView);
+        load_news = (ProgressBar) getActivity().findViewById(R.id.load_news);
         //Getting logged user and set header
         final Bundle bundle = getActivity().getIntent().getExtras();
 
@@ -487,6 +490,7 @@ public class HomeFragment extends Fragment {
                         newsAdapter.notifyDataSetChanged();
                         linearLayoutManager.scrollToPosition(recycler_view_news.getAdapter().getItemCount()-1);
                     }
+                    load_news.setVisibility(View.GONE);
                 }
 
             }

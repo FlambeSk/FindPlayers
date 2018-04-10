@@ -2,6 +2,7 @@ package eu.findplayers.app.findplayers;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,14 +54,15 @@ public class UserActivity extends AppCompatActivity {
 
     TextView profile_name;
     Integer profile_id,logged_id;
-    ImageView profile_image, friendRequest, back_arrow;
+    ImageView profile_image, friendRequest, back_arrow, send_message_button;
     RecyclerView recyclerView;
     List<MyData> data_list;
     GridLayoutManager gridLayoutManager;
     private ProfileGamesAdapter adapter;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     Bundle bundle;
-    String loggedName, loggedImage, profileImage;
+    String loggedName, loggedImage, profileImage, profileUserName;
+    ProgressBar load_icons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +83,12 @@ public class UserActivity extends AppCompatActivity {
         profile_image = (ImageView)findViewById(R.id.profile_image);
         friendRequest = (ImageView) findViewById(R.id.friendRequest);
         back_arrow = (ImageView) findViewById(R.id.back_arrow);
+        send_message_button = (ImageView) findViewById(R.id.send_message);
+        load_icons = (ProgressBar) findViewById(R.id.load_icons);
         profile_id = bundle.getInt("user_id");
 
         profile_name.setText(bundle.getString("user_name"));
+        profileUserName = bundle.getString("user_name");
         get_user(profile_id);
 
         //Setting Friend request button
@@ -123,6 +129,20 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        //On send message button click
+        send_message_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserActivity.this, MessagesActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("friend_id", profile_id);
+                bundle.putInt("logged_id", logged_id);
+                bundle.putString("friend_name", profileUserName);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
@@ -219,13 +239,19 @@ public class UserActivity extends AppCompatActivity {
                                         .show();
                             }
                         });
+                        load_icons.setVisibility(View.GONE);
+                        send_message_button.setVisibility(View.VISIBLE);
                     }else if (msg.equals("friendPending"))
                     {
                         friendRequest.setBackgroundResource(R.drawable.ic_query_builder);
+                        send_message_button.setVisibility(View.GONE);
+                        load_icons.setVisibility(View.GONE);
                     }
                     else
                     {
+                        load_icons.setVisibility(View.GONE);
                         friendRequest.setBackgroundResource(R.drawable.ic_add_circle_black_24dp);
+                        send_message_button.setVisibility(View.GONE);
                         friendRequest.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

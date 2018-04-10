@@ -79,6 +79,14 @@
                 android:id="@+id/image_for_upload"
                 android:visibility="gone"
                 />
+            <ProgressBar
+                android:paddingTop="5dp"
+                android:id="@+id/load_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_news"

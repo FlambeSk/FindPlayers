@@ -151,16 +151,14 @@ public class MainActivity extends AppCompatActivity
         //Firebase Notifications
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference reference = database.getReference();
-        final DatabaseReference count = reference.child("messages");
+        final DatabaseReference count = reference.child("newMessages");
         LinearLayout linearLayoutt = (LinearLayout)findViewById(R.id.messages_notifi) ;
 
         count.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                countNotifications = dataSnapshot.getChildrenCount();
                 String isRead = String.valueOf(dataSnapshot.child("isRead").getValue());
-                //Integer to_id = dataSnapshot.child("to_id").getValue(Integer.class);
                 String childer = String.valueOf(dataSnapshot.child("to_id").getValue());
                 if (childer.equals(logged_id) && isRead.equals("false")){
                         navigationView.getMenu().getItem(1).setActionView(R.layout.messages_news_icon);
@@ -172,9 +170,8 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                countNotifications = dataSnapshot.getChildrenCount();
+
                 String isRead = String.valueOf(dataSnapshot.child("isRead").getValue());
-                //Integer to_id = dataSnapshot.child("to_id").getValue(Integer.class);
                 String childer = String.valueOf(dataSnapshot.child("to_id").getValue());
                 if (childer.equals(logged_id)  && isRead.equals("false")){
                         navigationView.getMenu().getItem(1).setActionView(R.layout.messages_news_icon);
@@ -189,12 +186,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                countNotifications = dataSnapshot.getChildrenCount();
                 String isRead = String.valueOf(dataSnapshot.child("isRead").getValue());
-                //Integer to_id = dataSnapshot.child("to_id").getValue(Integer.class);
                 String childer = String.valueOf(dataSnapshot.child("to_id").getValue());
                 if (childer.equals(logged_id)  && isRead.equals("false")){
-                        navigationView.getMenu().getItem(1).setActionView(R.layout.messages_news_icon);
+                    navigationView.getMenu().getItem(1).setActionView(null);
+                    toggle.setHomeAsUpIndicator(R.drawable.ic_drawer);
+                }else
+                {
+                    navigationView.getMenu().getItem(1).setActionView(null);
+                    toggle.setHomeAsUpIndicator(R.drawable.ic_drawer);
                 }
             }
 

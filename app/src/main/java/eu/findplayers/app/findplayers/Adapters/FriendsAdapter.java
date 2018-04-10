@@ -56,7 +56,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         //Firebase New Messages
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference reference = database.getReference();
-        final DatabaseReference count = reference.child("messages");
+        final DatabaseReference count = reference.child("newMessages");
 
         count.addChildEventListener(new ChildEventListener() {
             @Override
@@ -100,12 +100,14 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                 String fromID = String.valueOf(dataSnapshot.child("from_id").getValue());
                 if (childer.equals(String.valueOf(friendsData.get(position).getLogged_id())) && fromID.equals(String.valueOf(friendsData.get(position).getFriend_id())) && isRead.equals("false")){
 
-                    holder.username.setTextSize(22);
+                    holder.username.setTextSize(16);
+                    holder.lastMessage.setText("");
                     //holder.username.setTypeface(holder.username.getTypeface(), Typeface.BOLD);
                 }
                 else
                 {
                     holder.username.setTextSize(16);
+                    holder.lastMessage.setText("");
                    // holder.username.setTypeface(holder.username.getTypeface(), Typeface.NORMAL);
                 }
             }
