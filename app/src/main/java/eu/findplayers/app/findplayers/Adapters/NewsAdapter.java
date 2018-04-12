@@ -1,7 +1,10 @@
 package eu.findplayers.app.findplayers.Adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -86,7 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.name.setText(newsData.get(position).getFromName());
         holder.message.setText(newsData.get(position).getMessage());
@@ -95,7 +98,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         //User Image
         get_user_imageView(newsData.get(position).getFromID(), holder.news_user_image);
-        get_user_imageView(newsData.get(position).getLoggedID(), holder.comment_user_image);
 
         //Picasso.with(context).load(newsData.get(position).getFromImage()).transform(new CropCircleTransformation()).into(holder.news_user_image);
         final Uri uri = Uri.parse(newsData.get(position).getImage());
@@ -148,24 +150,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             }
         });
 
-
-        //set firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("news_comments");
-
-        //Get string of comment EditText
-        String comment = holder.comment_edit_text.getText().toString();
-        if (!comment.equals(""))
-        {
-            //On send comment
-            holder.comment_send_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
-        }
-
+        //On Comment button click
+        holder.comment_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showComments(holder.comment_popup);
+            }
+        });
     }
 
     @Override
@@ -178,8 +169,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public TextView name, message, timestamp;
         public SimpleDraweeView draweeView;
         public String type;
-        public ImageView news_user_image, comment_user_image, comment_send_button;
-        public EditText comment_edit_text;
+        public ImageView news_user_image, comment_image;
+        public Dialog comment_popup;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -189,10 +180,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             draweeView.getHierarchy().setProgressBarImage(new ProgressBarDrawable());
             news_user_image = (ImageView) itemView.findViewById(R.id.news_user_image);
             timestamp = (TextView) itemView.findViewById(R.id.timestamp);
-            comment_user_image = (ImageView) itemView.findViewById(R.id.comment_user_image);
-            comment_send_button = (ImageView) itemView.findViewById(R.id.comment_send_button);
-            comment_edit_text = (EditText) itemView.findViewById(R.id.comment_edit_text);
+            comment_image = (ImageView) itemView.findViewById(R.id.comment_image);
+            comment_popup = new Dialog(context);
         }
+    }
+
+    public void showComments(Dialog dialog)
+    {
+        dialog.setContentView(R.layout.comment_layout);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 
     public void get_user_imageView(final int from, final ImageView a)

@@ -141,7 +141,6 @@ public class HomeFragment extends Fragment {
         editor.apply();
 
 
-
         //Click on Profile user image
         profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -441,11 +440,6 @@ public class HomeFragment extends Fragment {
         MySingleton.getInstance(getActivity()).addToRequestque(stringRequest);
     }
 
-
-    public void load_more_data_on_scroll()
-    {
-
-    }
 
     public void load_news()
     {
