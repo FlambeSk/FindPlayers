@@ -67,6 +67,11 @@ public class TournamentsFragment extends Fragment {
     private RecyclerView recyclerViewBiggest;
     private List<TournamentData> tournamentBiggestData;
 
+    //Ended tournaments
+    private TournamentsAdapter tournamentEndedAdapter;
+    private RecyclerView recyclerViewEnded;
+    private List<TournamentData> tournamentEndedData;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -94,6 +99,8 @@ public class TournamentsFragment extends Fragment {
        AllTournaments();
 
        BiggestTournament();
+
+        showEndedTournaments();
 
         //SWIPE DOWN - refresh Activity
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_down_layout_fragment);
@@ -282,6 +289,7 @@ public class TournamentsFragment extends Fragment {
                         TournamentData data = new TournamentData(tournamentID, tournamentName, tournamentImage, countt, startAt);
                         tournamentBiggestData.add(data);
                         tournamentBiggestAdapter.notifyDataSetChanged();
+
                     }
 
 
@@ -318,6 +326,68 @@ public class TournamentsFragment extends Fragment {
         MySingleton.getInstance(getActivity()).addToRequestque(stringRequest);
     }
 
+    private void EndedTournaments(final int limit, final String order)
+    {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //response
+                Log.d("Response", response);
+
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+
+
+                    for (int i=0; i<jsonArray.length(); i++)
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String tournamentName = jsonObject.getString("tournamentName");
+                        String tournamentImage = jsonObject.getString("tournament_image");
+                        Integer tournamentID = jsonObject.getInt("tournamentID");
+                        String countt = jsonObject.getString("counts");
+                        String startAt = jsonObject.getString("start");
+
+                        TournamentData data = new TournamentData(tournamentID, tournamentName, tournamentImage, countt, startAt);
+                        tournamentEndedData.add(data);
+                        tournamentEndedAdapter.notifyDataSetChanged();
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //error
+                        //Log.d("Error.Response", error);
+                        // Toast.makeText(MessagesActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                String counts = String.valueOf(limit);
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("endedTournamentList", "true");
+                params.put("tournamentsCount", counts);
+                params.put("orderBy", order);
+
+
+                return params;
+            }
+        };
+        MySingleton.getInstance(getActivity()).addToRequestque(stringRequest);
+    }
+
+
+
     private void showMyTournaments()
     {
         MyTournaments(logged_id);
@@ -331,7 +401,7 @@ public class TournamentsFragment extends Fragment {
     private void AllTournaments()
     {
         //create first tournament recyclerview
-        Tournaments(10, "id DESC");
+        Tournaments(100, "id DESC");
         tournamentData = new ArrayList<>();
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_all_tournaments);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -349,6 +419,17 @@ public class TournamentsFragment extends Fragment {
         recyclerViewBiggest.setLayoutManager(layoutManagerr);
         tournamentBiggestAdapter = new TournamentsAdapter(getActivity(), tournamentBiggestData);
         recyclerViewBiggest.setAdapter(tournamentBiggestAdapter);
+    }
+
+    private void showEndedTournaments()
+    {
+        EndedTournaments(20, "id DESC");
+        tournamentEndedData = new ArrayList<>();
+        recyclerViewEnded = (RecyclerView) getActivity().findViewById(R.id.recycler_ended_tournaments);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewEnded.setLayoutManager(layoutManager);
+        tournamentEndedAdapter = new TournamentsAdapter(getActivity(), tournamentEndedData);
+        recyclerViewEnded.setAdapter(tournamentEndedAdapter);
     }
 
 

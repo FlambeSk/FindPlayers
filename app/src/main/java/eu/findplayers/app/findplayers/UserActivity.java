@@ -87,8 +87,8 @@ public class UserActivity extends AppCompatActivity {
         load_icons = (ProgressBar) findViewById(R.id.load_icons);
         profile_id = bundle.getInt("user_id");
 
-        profile_name.setText(bundle.getString("user_name"));
-        profileUserName = bundle.getString("user_name");
+        //profile_name.setText(bundle.getString("user_name"));
+        //profileUserName = bundle.getString("user_name");
         get_user(profile_id);
 
         //Setting Friend request button
@@ -391,6 +391,8 @@ public class UserActivity extends AppCompatActivity {
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                     String respons = jsonObject.getString("response");
                     profileImage = jsonObject.getString("profile_image");
+                    profile_name.setText(jsonObject.getString("username"));
+                    profileUserName = jsonObject.getString("username");
                     Picasso.with(UserActivity.this).load(profileImage).transform(new CropCircleTransformation()).into(profile_image);
 
                 } catch (JSONException e) {

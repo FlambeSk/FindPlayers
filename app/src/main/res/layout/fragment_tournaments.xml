@@ -90,6 +90,30 @@
                         card_view:cardUseCompatPadding="true" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_card"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ended tournaments"
+                        android:padding="5dp"
+                        android:textSize="20sp"
+                        android:textColor="#000"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_ended_tournaments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        card_view:cardCornerRadius="5dp"
+                        card_view:cardElevation="5dp"
+                        android:paddingBottom="8dp"
+                        card_view:cardUseCompatPadding="true" />
+                </LinearLayout>
+
 
             </LinearLayout>
 

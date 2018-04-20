@@ -54,7 +54,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Users owning a game"
+                android:text="@string/users_owning_a_game"
                 android:textSize="20sp"
                 android:paddingLeft="10dp"
                 android:textStyle="bold"
@@ -68,6 +68,64 @@
                 card_view:cardCornerRadius="5dp"
                 card_view:cardElevation="5dp"
                 card_view:cardUseCompatPadding="true" />
+            <View
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/comments"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:textStyle="bold"
+                android:paddingBottom="15dp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_game_comments"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="horizontal"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardElevation="5dp"
+                card_view:cardUseCompatPadding="true" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <EditText
+                    android:id="@+id/comment_text"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/comment"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/send_comment"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/send_comment"
+                    android:layout_width="26dp"
+                    android:layout_height="32dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_send_button" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
         </LinearLayout>
 
     </RelativeLayout>

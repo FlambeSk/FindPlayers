@@ -2,6 +2,7 @@ package eu.findplayers.app.findplayers.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -51,6 +52,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -71,6 +73,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import eu.findplayers.app.findplayers.Adapters.NewsAdapter;
 import eu.findplayers.app.findplayers.Data.MyData;
 import eu.findplayers.app.findplayers.Data.NewsData;
+import eu.findplayers.app.findplayers.Firebase.NotificationHelper;
 import eu.findplayers.app.findplayers.ForLogin.MySingleton;
 import eu.findplayers.app.findplayers.MainActivity;
 import eu.findplayers.app.findplayers.ProfileActivity;
@@ -106,6 +109,8 @@ public class HomeFragment extends Fragment {
     boolean userScrolled=false;
 
     ProgressDialog progressDialog;
+
+    NotificationHelper helper;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -191,6 +196,10 @@ public class HomeFragment extends Fragment {
         send_news_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Notification.Builder builder = helper.getEDMTChannelNotification("aaa","bbb");
+                helper.getManager().notify(new Random().nextInt(), builder.build());
+
                 String news = send_news.getText().toString();
 
                 if (news.equals(""))

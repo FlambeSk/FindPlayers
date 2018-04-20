@@ -26,4 +26,6 @@
     <string name="friends">Friends</string>
     <string name="comment">Comment</string>
     <string name="like">Like</string>
+    <string name="users_owning_a_game">Users owning a game</string>
+    <string name="comments">Comments</string>
 </resources>

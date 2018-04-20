@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -16,12 +17,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.bumptech.glide.Glide;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -31,10 +35,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import eu.findplayers.app.findplayers.Data.CommentData;
 import eu.findplayers.app.findplayers.Data.NewsData;
 import eu.findplayers.app.findplayers.ForLogin.MySingleton;
 import eu.findplayers.app.findplayers.ProfileActivity;
@@ -91,10 +97,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
+        final String news_key, fromImage;
+        final Integer logged_id;
         holder.name.setText(newsData.get(position).getFromName());
         holder.message.setText(newsData.get(position).getMessage());
         //Glide.with(context).load(newsData.get(position).getImage()).into(holder.image);
 
+        //get news key
+        news_key = newsData.get(position).getKey();
+
+        //get logged_id
+        logged_id = newsData.get(position).getLoggedID();
 
         //User Image
         get_user_imageView(newsData.get(position).getFromID(), holder.news_user_image);
@@ -154,7 +167,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.comment_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showComments(holder.comment_popup);
+                showComments(holder.comment_popup, news_key, logged_id);
             }
         });
     }
@@ -185,11 +198,68 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-    public void showComments(Dialog dialog)
+    public void showComments(Dialog dialog, final String key, final Integer loggedID)
     {
-        dialog.setContentView(R.layout.comment_layout);
+        //set firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference("news_comments");
+
+
+        final ImageView send_comment;
+        final EditText comment_text;
+        RecyclerView recycler_comments;
+        LinearLayoutManager linearLayoutManager;
+        CommentAdapter commentAdapter;
+        List<CommentData> commentDataList;
+
+
+
+        dialog.setContentView(R.layout.comments_layout);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+
+        send_comment = (ImageView) dialog.findViewById(R.id.send_comment);
+        comment_text = (EditText) dialog.findViewById(R.id.comment_text);
+        recycler_comments = (RecyclerView) dialog.findViewById(R.id.recycler_comments);
+
+        //Show comments
+        recycler_comments.setNestedScrollingEnabled(false);
+        commentDataList = new ArrayList<>();
+        linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setStackFromEnd(true);
+        recycler_comments.setLayoutManager(linearLayoutManager);
+        commentAdapter = new CommentAdapter(context, commentDataList);
+        recycler_comments.setAdapter(commentAdapter);
+        //load comments
+        load_comments(key,commentDataList, commentAdapter, loggedID);
+
+        get_user(loggedID);
+
+        send_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String comment = comment_text.getText().toString();
+                if (comment.equals(""))
+                {
+                    Toast.makeText(context, "Write comment", Toast.LENGTH_SHORT).show();
+                } else
+                {
+
+                    //Timestamp
+                    Long tsLong = System.currentTimeMillis()/1000;
+                    String timestamp = tsLong.toString();
+                    //Get new key
+                    String new_key = myRef.push().getKey();
+
+                    CommentData data = new CommentData(comment, profileImageString, timestamp, key, new_key, loggedID, 0);
+                     myRef.child(key).child(new_key).setValue(data);
+                     comment_text.setText("");
+                }
+
+            }
+        });
+
+
     }
 
     public void get_user_imageView(final int from, final ImageView a)
@@ -272,5 +342,48 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             }
         };
         MySingleton.getInstance(context).addToRequestque(stringRequest);
+    }
+
+    public void load_comments(final String ID, final List<CommentData> commentDataList, final  CommentAdapter commentAdapter, final Integer loggedID)
+    {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference helpRef = database.getReference();
+        final DatabaseReference mess = helpRef.child("news_comments").child(ID);
+
+        mess.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String comment = String.valueOf(dataSnapshot.child("comment").getValue());
+                String comment_id = String.valueOf(dataSnapshot.child("comment_id").getValue());
+                Integer fromID = dataSnapshot.child("fromID").getValue(Integer.class);
+                String fromImage = String.valueOf(dataSnapshot.child("fromImage").getValue());
+                String news_key = String.valueOf(dataSnapshot.child("news_key").getValue());
+                String timestamp = String.valueOf(dataSnapshot.child("timestamp").getValue());
+
+                CommentData cmdata = new CommentData(comment,fromImage,timestamp,news_key,comment_id,fromID, loggedID);
+                commentDataList.add(cmdata);
+                commentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -72,26 +72,14 @@
                 android:paddingBottom="5dp">
 
                 <ImageView
-                    android:id="@+id/comment_likee"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/like"
-                    card_view:layout_constraintBottom_toBottomOf="parent"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
                     android:id="@+id/comment_image"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginStart="84dp"
+                    android:layout_marginStart="172dp"
                     android:layout_marginTop="8dp"
                     card_view:layout_constraintBottom_toBottomOf="parent"
-                    card_view:layout_constraintStart_toEndOf="@+id/likeText"
+                    card_view:layout_constraintStart_toStartOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent"
                     card_view:srcCompat="@drawable/comment" />
 
@@ -112,17 +100,6 @@
                     card_view:layout_constraintTop_toTopOf="parent"
                     card_view:layout_constraintVertical_bias="0.517" />
 
-                <TextView
-                    android:id="@+id/likeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/like"
-                    android:textColor="#000"
-                    card_view:layout_constraintBottom_toBottomOf="parent"
-                    card_view:layout_constraintStart_toEndOf="@+id/comment_likee"
-                    card_view:layout_constraintTop_toTopOf="parent"
-                    card_view:layout_constraintVertical_bias="0.511" />
             </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>

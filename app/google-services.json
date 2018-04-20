@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:407512099790:android:e515333f3bb96c92",
+        "mobilesdk_app_id": "1:407512099790:android:1d5cb034e1445947",
         "android_client_info": {
-          "package_name": "com.example.doma.loginvolley"
+          "package_name": "eu.findplayers.app.findplayers"
         }
       },
       "oauth_client": [
         {
-          "client_id": "407512099790-t9t3ph2povtb2m5t12lqhm5ott94qu02.apps.googleusercontent.com",
+          "client_id": "407512099790-tc2l66kevc0ss80gv9kbiklgqguru4vc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.doma.loginvolley",
+            "package_name": "eu.findplayers.app.findplayers",
             "certificate_hash": "3120f5290697422d1d7f09536aad6e8e7016a00d"
           }
         },
@@ -44,37 +44,6 @@
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:407512099790:android:1d5cb034e1445947",
-        "android_client_info": {
-          "package_name": "eu.findplayers.app.findplayers"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "407512099790-v1552au5i1ed8hcfj89ogvbv3ek0hi13.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDlxebBo29_yBMKenV75LXIoBU3vGSVX3c"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

@@ -1,4 +1,5 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+<!--
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,6 +56,8 @@
                     android:singleLine="false"
                     android:layout_gravity="center"
                     />
+
+
                 <ImageView
                     android:layout_margin="10dp"
                     android:layout_width="30dp"
@@ -72,6 +75,83 @@
                     android:layout_gravity="center"
                     />
             </LinearLayout>
+       -->
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="#fff">
+
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="60dp"
+                    android:layout_height="59dp"
+                    android:layout_gravity="left"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:transitionName="profileImageTransition"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/send_news"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/input_user"
+                    android:ems="10"
+                    android:hint="Tell what you want."
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:padding="10dp"
+                    android:textColorHint="#808080"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/profile_image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_editor_absoluteX="84dp"
+                    card_view:layout_editor_absoluteY="22dp" />
+
+                <ImageView
+                    android:id="@+id/send_news_button"
+                    android:layout_width="26dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_send_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/send_news"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.517"
+                    card_view:layout_editor_absoluteY="28dp" />
+
+                <ImageView
+                    android:id="@+id/add_news_image"
+                    android:layout_width="38dp"
+                    android:layout_height="37dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/image_news"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.205"
+                    app:layout_constraintStart_toEndOf="@+id/send_news_button"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.513"
+                    card_view:layout_editor_absoluteX="277dp"
+                    card_view:layout_editor_absoluteY="28dp" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
             <ImageView
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"

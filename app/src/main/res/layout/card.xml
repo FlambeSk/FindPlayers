@@ -24,7 +24,6 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:scaleType="centerCrop"
