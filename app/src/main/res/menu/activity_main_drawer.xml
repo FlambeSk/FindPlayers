@@ -9,23 +9,23 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_house_white_silhouette_without_door"
             app:itemIconTint="#fff"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_messages"
             android:icon="@drawable/ic_person_pin"
-            android:title="Messages" />
+            android:title="@string/messages" />
         <item
             android:id="@+id/nav_games"
             android:icon="@drawable/ic_videogame"
-            android:title="Games" />
+            android:title="@string/games" />
         <item
             android:id="@+id/nav_tournaments"
             android:icon="@drawable/ic_trophy"
-            android:title="Tournaments" />
+            android:title="@string/tournaments" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_send"
-            android:title="Log Out" />
+            android:title="@string/logout" />
 
     </group>
     <group
@@ -33,7 +33,7 @@
 
         <item
             android:id="@+id/nav_switch"
-            android:title="Open on start"
+            android:title="@string/open_on_start"
 
             app:actionLayout="@layout/menu_switch" />
 

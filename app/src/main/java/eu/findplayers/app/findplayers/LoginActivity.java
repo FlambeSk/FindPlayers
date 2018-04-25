@@ -151,21 +151,15 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
 
-
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_LONG).show();
                 error.printStackTrace();
-
             }
         })
         {

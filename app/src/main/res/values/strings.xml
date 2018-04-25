@@ -28,4 +28,20 @@
     <string name="like">Like</string>
     <string name="users_owning_a_game">Users owning a game</string>
     <string name="comments">Comments</string>
+    <string name="email_address">E-mail address</string>
+    <string name="password">Password</string>
+    <string name="password_again">Password Again</string>
+    <string name="login">Log In</string>
+    <string name="new_user_register_now">New User? Register Now</string>
+    <string name="username">Username</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="please_fill_all_fields">Please fill all fields</string>
+
+    <string name="home">Home</string>
+    <string name="messages">Messages</string>
+    <string name="games">Games</string>
+    <string name="tournaments">Tournaments</string>
+    <string name="logout">Log Out</string>
+    <string name="open_on_start">Open on start</string>
 </resources>
