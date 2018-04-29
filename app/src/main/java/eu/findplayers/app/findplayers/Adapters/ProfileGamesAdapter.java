@@ -139,7 +139,7 @@ public class ProfileGamesAdapter extends RecyclerView.Adapter<ProfileGamesAdapte
     //Remove games from Profile
     public static void sendOnServer(final int id, final int loggined_id)
     {
-        StringRequest stringRequest =  new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/game.php?id="+id+"&user_id="+loggined_id+"&remove=true", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest =  new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/game.php?id="+id+"&user_id="+loggined_id+"&remove=true", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

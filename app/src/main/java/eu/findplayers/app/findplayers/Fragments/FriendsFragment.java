@@ -78,7 +78,7 @@ public class FriendsFragment extends Fragment {
             protected Void doInBackground(Integer... integers) {
 
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url("https://findplayers.eu/android/friend_list.php?id="+id).build();
+                Request request = new Request.Builder().url("http://findplayers.eu/android/friend_list.php?id="+id).build();
 
                 try {
                     Response response = client.newCall(request).execute();

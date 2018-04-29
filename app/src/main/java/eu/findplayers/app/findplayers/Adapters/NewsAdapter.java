@@ -264,7 +264,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     public void get_user_imageView(final int from, final ImageView a)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
@@ -306,7 +306,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     public void get_user(final int from)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response

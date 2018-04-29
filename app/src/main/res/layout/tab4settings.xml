@@ -4,10 +4,81 @@
     android:layout_height="match_parent"
     tools:context="eu.findplayers.app.findplayers.Fragments.Tab4Settings">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/firstWinnerText"
+                android:text="@string/choose_first_winner"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+            <Spinner
+                android:id="@+id/firstWinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:visibility="gone"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/secondWinnerText"
+                android:text="@string/choose_second_winner"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+            <Spinner
+                android:id="@+id/secondWinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:visibility="gone"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/thirdWinnerText"
+                android:text="@string/choose_third_winner"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+            <Spinner
+                android:id="@+id/thirdWinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:visibility="gone"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/sendWinners"
+                android:background="@drawable/button_blue"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="@string/send_winners"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </FrameLayout>

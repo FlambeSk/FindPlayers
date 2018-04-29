@@ -281,7 +281,7 @@ public class TournamentAddActivity extends AppCompatActivity {
 
     public void uploadNewTournament( final String name, final Integer gameID, final Integer playersCount, final String about, final Bitmap pic, final Integer createdBy, final String password, final String startDate)
     {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://findplayers.eu/android/tournament.php", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://findplayers.eu/android/tournament.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -369,7 +369,7 @@ public class TournamentAddActivity extends AppCompatActivity {
 
     private void load_games_to_spinner()
     {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://findplayers.eu/android/game.php", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://findplayers.eu/android/game.php", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

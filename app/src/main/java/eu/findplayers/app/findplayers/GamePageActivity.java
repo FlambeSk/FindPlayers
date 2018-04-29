@@ -138,7 +138,7 @@ public class GamePageActivity extends AppCompatActivity {
             protected Void doInBackground(Integer... integers) {
 
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url("https://findplayers.eu/android/game.php?id="+id+"&users=true&loggedID="+loggedID).build();
+                Request request = new Request.Builder().url("http://findplayers.eu/android/game.php?id="+id+"&users=true&loggedID="+loggedID).build();
 
                 try{
                     Response response = client.newCall(request).execute();

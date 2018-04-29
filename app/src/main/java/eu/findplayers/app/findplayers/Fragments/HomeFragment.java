@@ -197,8 +197,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Notification.Builder builder = helper.getEDMTChannelNotification("aaa","bbb");
-                helper.getManager().notify(new Random().nextInt(), builder.build());
+//                Notification.Builder builder = helper.getEDMTChannelNotification("aaa","bbb");
+                //helper.getManager().notify(new Random().nextInt(), builder.build());
 
                 String news = send_news.getText().toString();
 
@@ -241,7 +241,7 @@ public class HomeFragment extends Fragment {
                         Long tsLong = System.currentTimeMillis()/1000;
                         String timestamp = tsLong.toString();
                         //set Data
-                        NewsData newsData = new NewsData(key, profileName, profileImage, news, "image", timestamp, "https://findplayers.eu/uploads/news/"+image_for_upload_name+".jpeg", userID, 0);
+                        NewsData newsData = new NewsData(key, profileName, profileImage, news, "image", timestamp, "http://findplayers.eu/uploads/news/"+image_for_upload_name+".jpeg", userID, 0);
                         String userid = userID.toString();
 
                         send_image_news(image_for_upload_name, bitmap);
@@ -302,7 +302,7 @@ public class HomeFragment extends Fragment {
 
     public void getUserData(final int logged_id)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
@@ -416,12 +416,20 @@ public class HomeFragment extends Fragment {
 
     public void send_image_news(final String image_namee, final Bitmap bitmap)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/news.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/news.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
                 Log.d("Response_news", response);
                 progressDialog.dismiss();
+
+                //Refresh fragment
+                Fragment fragment = null;
+                fragment = getActivity().getSupportFragmentManager().findFragmentByTag("HomeFragment");
+                final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.detach(fragment);
+                fragmentTransaction.attach(fragment);
+                fragmentTransaction.commit();
             }
 
         }, new com.android.volley.Response.ErrorListener() {

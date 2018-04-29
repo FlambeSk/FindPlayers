@@ -44,4 +44,10 @@
     <string name="tournaments">Tournaments</string>
     <string name="logout">Log Out</string>
     <string name="open_on_start">Open on start</string>
+    <string name="first_place">First Place</string>
+    <string name="choose_first_winner">Choose First Winner</string>
+    <string name="choose_second_winner">Choose Second Winner</string>
+    <string name="choose_third_winner">Choose Third Winner</string>
+    <string name="send_winners">Send Winners</string>
+    <string name="winners">Winners</string>
 </resources>

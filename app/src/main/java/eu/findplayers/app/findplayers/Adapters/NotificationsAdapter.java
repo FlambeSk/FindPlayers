@@ -196,7 +196,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     private void removeFriendPending(final Integer toId, final Integer fromId)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/friendship.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/friendship.php", new com.android.volley.Response.Listener<String>() {
 
 
             @Override
@@ -230,7 +230,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     private void addFriend(final Integer toID, final Integer fromId) {
 
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/friendship.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/friendship.php", new com.android.volley.Response.Listener<String>() {
 
 
             @Override

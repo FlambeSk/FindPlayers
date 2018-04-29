@@ -147,7 +147,7 @@ public class TournamentsFragment extends Fragment {
 
     private void MyTournaments(final int user_id)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
@@ -207,7 +207,7 @@ public class TournamentsFragment extends Fragment {
 
     private void Tournaments(final int limit, final String order)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
@@ -267,7 +267,7 @@ public class TournamentsFragment extends Fragment {
 
     private void BiggestTournaments(final int limit, final String order)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
@@ -328,7 +328,7 @@ public class TournamentsFragment extends Fragment {
 
     private void EndedTournaments(final int limit, final String order)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response

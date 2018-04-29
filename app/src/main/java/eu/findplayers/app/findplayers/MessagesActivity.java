@@ -229,7 +229,7 @@ public class MessagesActivity extends AppCompatActivity {
 
     public void sendNotification(final Integer id_to, final Integer id_from,final String friend_name, final String body)
     {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://findplayers.eu/View/firebase/send.php", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://findplayers.eu/View/firebase/send.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response

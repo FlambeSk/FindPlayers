@@ -174,7 +174,7 @@ public class ProfileActivity extends AppCompatActivity {
             protected Void doInBackground(Integer... integers) {
 
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url("https://findplayers.eu/android/user_games.php?id="+id).build();
+                Request request = new Request.Builder().url("http://findplayers.eu/android/user_games.php?id="+id).build();
 
                // Bundle bundle = getActivity().getIntent().getExtras();
 
@@ -218,7 +218,7 @@ public class ProfileActivity extends AppCompatActivity {
             protected Void doInBackground(Integer... integers) {
 
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url("https://findplayers.eu/android/friend_list.php?id="+id).build();
+                Request request = new Request.Builder().url("http://findplayers.eu/android/friend_list.php?id="+id).build();
 
                 try {
                     Response response = client.newCall(request).execute();
@@ -306,7 +306,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void uploadImage(final Bitmap bitmap, final int user_id)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
@@ -342,7 +342,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void get_user(final int from)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response

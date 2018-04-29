@@ -359,36 +359,9 @@ public class MainActivity extends AppCompatActivity
                     if (Long.toString(countNotifications).equals("0"))
                     {
                         menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_0));
-                    } else if (Long.toString(countNotifications).equals("1"))
-                    {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_1));
-                    }else if (Long.toString(countNotifications).equals("2"))
-                    {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_2));
-                    } else if (Long.toString(countNotifications).equals("3"))
-                    {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_3));
-                    } else if (Long.toString(countNotifications).equals("4"))
-                    {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_4));
-                    }else if (Long.toString(countNotifications).equals("5"))
-                    {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_5));
-                    }else if (Long.toString(countNotifications).equals("6"))
-                    {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_6));
-                    }else if (Long.toString(countNotifications).equals("7"))
-                    {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_7));
-                    }else if (Long.toString(countNotifications).equals("8"))
-                    {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_8));
-                    }else if (Long.toString(countNotifications).equals("9"))
-                    {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_9));
                     } else
                     {
-                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_10));
+                        menu.getItem(0).setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.notifi_0));
                     }
 
                 }

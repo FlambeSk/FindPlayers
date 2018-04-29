@@ -94,7 +94,7 @@ public class GamesFragment extends Fragment {
             protected Void doInBackground(Integer... integers) {
 
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url("https://findplayers.eu/android/games.php").build();
+                Request request = new Request.Builder().url("http://findplayers.eu/android/games.php").build();
 
                 try {
                     Response response = client.newCall(request).execute();

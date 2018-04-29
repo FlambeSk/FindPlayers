@@ -128,7 +128,7 @@ public class SearchActivity extends AppCompatActivity {
             protected Void doInBackground(Integer... integers) {
 
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url("https://findplayers.eu/android/games.php").build();
+                Request request = new Request.Builder().url("http://findplayers.eu/android/games.php").build();
 
                 try {
                     Response response = client.newCall(request).execute();
@@ -167,7 +167,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void games()
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/games.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/games.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response

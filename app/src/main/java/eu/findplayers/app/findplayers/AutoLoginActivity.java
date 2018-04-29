@@ -24,7 +24,7 @@ import eu.findplayers.app.findplayers.ForLogin.MySingleton;
 
 public class AutoLoginActivity extends AppCompatActivity {
 
-    String login_url = "https://findplayers.eu/android/login.php";
+    String login_url = "http://findplayers.eu/android/login.php";
     AlertDialog.Builder builder;
     public String name_after_login, password_after_login;
     public static final String MY_PREFS_NAME = "MyPrefsFile";

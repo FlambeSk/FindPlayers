@@ -155,7 +155,7 @@ public class UserActivity extends AppCompatActivity {
             protected Void doInBackground(Integer... integers) {
 
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url("https://findplayers.eu/android/user_games.php?id="+id).build();
+                Request request = new Request.Builder().url("http://findplayers.eu/android/user_games.php?id="+id).build();
 
                 // Bundle bundle = getActivity().getIntent().getExtras();
 
@@ -194,7 +194,7 @@ public class UserActivity extends AppCompatActivity {
 
     private void friend_request_buttons(final int logged_id, final int profile_id)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/isFriend.php?loggedId="+logged_id+"&profileId="+profile_id, new com.android.volley.Response.Listener<String>(){
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/isFriend.php?loggedId="+logged_id+"&profileId="+profile_id, new com.android.volley.Response.Listener<String>(){
 
             @Override
             public void onResponse(String response) {
@@ -289,7 +289,7 @@ public class UserActivity extends AppCompatActivity {
 
     public void add_friend(final Integer logged_id, final Integer user_id, final boolean action)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/friendship.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/friendship.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("Response", response);
@@ -320,7 +320,7 @@ public class UserActivity extends AppCompatActivity {
 
     public void sendNotification(final Integer id_to, final Integer id_from,final String friend_name, final String body)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/View/firebase/send.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/View/firebase/send.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
@@ -381,7 +381,7 @@ public class UserActivity extends AppCompatActivity {
 
     public void get_user(final int from)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/user.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response

@@ -142,7 +142,7 @@ public class AllGamesAdapter extends RecyclerView.Adapter<AllGamesAdapter.ViewHo
 
     public static void sendOnServer(final Integer id, final Integer loggined_id)
     {
-        StringRequest stringRequest =  new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/game.php?id="+id+"&user_id="+loggined_id, new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest =  new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/game.php?id="+id+"&user_id="+loggined_id, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

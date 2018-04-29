@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     Button login_button, btn_games;
     EditText UserName, Password;
     String username,password;
-    String login_url = "https://findplayers.eu/android/login.php";
+    String login_url = "http://findplayers.eu/android/login.php";
     AlertDialog.Builder builder;
     public String name_after_login, password_after_login, image_after_login;
     public static final String MY_PREFS_NAME = "MyPrefsFile";

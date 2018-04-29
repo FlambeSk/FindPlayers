@@ -14,11 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +34,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import eu.findplayers.app.findplayers.Data.FriendsData;
 import eu.findplayers.app.findplayers.ForLogin.MySingleton;
 import eu.findplayers.app.findplayers.R;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 /**
  * Created by DOMA on 20.3.2018.
@@ -42,6 +45,7 @@ public class Tab1Tournament extends Fragment {
     Integer tournament_id, logged_id;
     Button addToTournament, removeFromTournament;
     String tournamName;
+    ImageView firstImage, secondImage, thirdImage;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     @Override
@@ -61,6 +65,10 @@ public class Tab1Tournament extends Fragment {
         addToTournament = (Button) getActivity().findViewById(R.id.addToTournament);
         removeFromTournament = (Button) getActivity().findViewById(R.id.removeFromTournament);
         tournamentIsFull = (TextView) getActivity().findViewById(R.id.tournamentIsFull);
+        firstImage = (ImageView) getActivity().findViewById(R.id.firstImage);
+        secondImage = (ImageView) getActivity().findViewById(R.id.secondImage);
+        thirdImage = (ImageView) getActivity().findViewById(R.id.thirdImage);
+
         tournamName = bundle.getString("tournamentName");
         tournamentName.setText(tournamName);
         tournament_id = bundle.getInt("tournament_id");
@@ -94,7 +102,7 @@ public class Tab1Tournament extends Fragment {
 
     private void getTournament(final int id)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
@@ -109,6 +117,14 @@ public class Tab1Tournament extends Fragment {
 
                         String playersNumber = jsonObject.getString("players");
                         String[] players = playersNumber.split(",");
+
+                        String first = jsonObject.getString("firstImage");
+                        String second = jsonObject.getString("secondImage");
+                        String third = jsonObject.getString("thirdImage");
+
+                    Picasso.with(getContext()).load(first).transform(new CropCircleTransformation()).into(firstImage);
+                    Picasso.with(getContext()).load(second).transform(new CropCircleTransformation()).into(secondImage);
+                    Picasso.with(getContext()).load(third).transform(new CropCircleTransformation()).into(thirdImage);
 
                         //Check if tournament is already full
                         if (allPlayers.equals(alreadyInTournament) )
@@ -136,12 +152,6 @@ public class Tab1Tournament extends Fragment {
                                 addToTournament.setVisibility(View.VISIBLE);
                             }
                         }
-
-
-
-
-
-
 
 
                 } catch (JSONException e) {
@@ -177,7 +187,7 @@ public class Tab1Tournament extends Fragment {
 
     private void addYourselfToTournament(final int logged_id, final int tournament_id)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
@@ -253,7 +263,7 @@ public class Tab1Tournament extends Fragment {
 
     private void leaveTournament(final int logged_id, final int tournament_id)
     {
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "https://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/tournament.php", new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //response
