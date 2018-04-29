@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Find Players</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Nastavenia</string>
+    <string name="remove_edit">Odstrániť hru z knižnice</string>
+    <string name="add_edit">Pridať hru do knižnice</string>
+    <string name="switch_drawer">Nechať otvorené</string>
+    <string name="tournament_messages_warning">You need to be in tournament to seeing messages</string>
+    <string name="message_box">Message</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_tournament_card">TournamentCardActivity</string>
+    <string name="tab_text_1">Turnaj</string>
+    <string name="tab_text_2">Hráči</string>
+    <string name="tab_text_3">KOmunikácia</string>
+    <string name="tab_text_4">Nastavenia</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="add_coment">Pridať koment</string>
+    <string name="user_games">Hry užívateľa</string>
+    <string name="friends">Priatelia</string>
+    <string name="comment">Koment</string>
+    <string name="like">Like</string>
+    <string name="users_owning_a_game">Užívateľia vlastniaci hru</string>
+    <string name="comments">Komenty</string>
+    <string name="email_address">Emailová adresa</string>
+    <string name="password">Heslo</string>
+    <string name="password_again">Heslo znova</string>
+    <string name="login">Prihlásiť</string>
+    <string name="new_user_register_now">Nový užívateľ? Registruj sa teraz!</string>
+    <string name="username">Prezývka</string>
+    <string name="sign_up">Registrovať</string>
+    <string name="something_went_wrong">Niečo nie je v poriadku!</string>
+    <string name="please_fill_all_fields">Prosím vyplň všetky polia</string>
+
+    <string name="home">Domov</string>
+    <string name="messages">Správy</string>
+    <string name="games">Hry</string>
+    <string name="tournaments">Turnaje</string>
+    <string name="logout">Odhlásiť sa</string>
+    <string name="open_on_start">Otvoriť pri štarte</string>
+    <string name="first_place">Prvé miesto</string>
+    <string name="choose_first_winner">Vyber prvého víťaza</string>
+    <string name="choose_second_winner">Vyber druhého víťaza</string>
+    <string name="choose_third_winner">Vyber tretieho víťaza</string>
+    <string name="send_winners">Poslať víťazov</string>
+    <string name="winners">Víťazi</string>
+</resources>
