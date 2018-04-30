@@ -50,4 +50,8 @@
     <string name="choose_third_winner">Choose Third Winner</string>
     <string name="send_winners">Send Winners</string>
     <string name="winners">Winners</string>
+    <string name="write_news">Write News</string>
+    <string name="First">First</string>
+    <string name="second">Second</string>
+    <string name="third">Third</string>
 </resources>

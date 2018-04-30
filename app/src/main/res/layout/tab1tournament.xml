@@ -91,6 +91,13 @@
                 android:id="@+id/firstImage"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/First"
+                android:textColor="#000"
+                android:layout_margin="5dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -104,6 +111,16 @@
                     android:layout_marginStart="20dp"
                     android:foregroundGravity="left" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/secondImage"
+                    android:layout_below="@+id/secondImage"
+                    android:layout_gravity="center"
+                    android:text="@string/second"
+                    android:textColor="#000" />
+
+
                 <ImageView
                     android:id="@+id/thirdImage"
                     android:layout_width="60dp"
@@ -112,6 +129,15 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginEnd="20dp"
                     android:foregroundGravity="right" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/thirdImage"
+                    android:layout_below="@+id/secondImage"
+                    android:layout_gravity="center"
+                    android:text="@string/third"
+                    android:textColor="#000" />
             </RelativeLayout>
 
 

@@ -8,8 +8,8 @@
     <string name="remove_edit">Odstrániť hru z knižnice</string>
     <string name="add_edit">Pridať hru do knižnice</string>
     <string name="switch_drawer">Nechať otvorené</string>
-    <string name="tournament_messages_warning">You need to be in tournament to seeing messages</string>
-    <string name="message_box">Message</string>
+    <string name="tournament_messages_warning">Musíš byť prihlásený v turnaji</string>
+    <string name="message_box">Správa</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -17,7 +17,7 @@
     <string name="title_activity_tournament_card">TournamentCardActivity</string>
     <string name="tab_text_1">Turnaj</string>
     <string name="tab_text_2">Hráči</string>
-    <string name="tab_text_3">KOmunikácia</string>
+    <string name="tab_text_3">Komunikácia</string>
     <string name="tab_text_4">Nastavenia</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
@@ -26,7 +26,7 @@
     <string name="friends">Priatelia</string>
     <string name="comment">Koment</string>
     <string name="like">Like</string>
-    <string name="users_owning_a_game">Užívateľia vlastniaci hru</string>
+    <string name="users_owning_a_game">Užívatelia vlastniaci hru</string>
     <string name="comments">Komenty</string>
     <string name="email_address">Emailová adresa</string>
     <string name="password">Heslo</string>
@@ -50,4 +50,8 @@
     <string name="choose_third_winner">Vyber tretieho víťaza</string>
     <string name="send_winners">Poslať víťazov</string>
     <string name="winners">Víťazi</string>
+    <string name="write_news">Pridaj novinku</string>
+    <string name="First">Prvý</string>
+    <string name="second">Druhý</string>
+    <string name="third">Tretí</string>
 </resources>

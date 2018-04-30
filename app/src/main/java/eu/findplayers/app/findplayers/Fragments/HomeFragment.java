@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
     EditText send_news;
     String profileName, profileImage, image_for_upload_name, userFriends, userIDString;
     String[] friendsOneByOne;
-    Integer userID, visibleItemCount, totalItemCount,pastVisiblesItems, friendsSize ;
+    Integer userID, friendsSize ;
 
     RecyclerView recycler_view_news;
     LinearLayoutManager linearLayoutManager;
@@ -106,11 +106,7 @@ public class HomeFragment extends Fragment {
     private Uri filePath;
     private Bitmap bitmap;
 
-    boolean userScrolled=false;
-
     ProgressDialog progressDialog;
-
-    NotificationHelper helper;
 
     public HomeFragment() {
         // Required empty public constructor
