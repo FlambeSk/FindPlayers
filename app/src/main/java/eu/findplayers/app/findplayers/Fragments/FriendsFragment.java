@@ -8,10 +8,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,11 +24,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eu.findplayers.app.findplayers.Adapters.FriendsAdapter;
 import eu.findplayers.app.findplayers.Data.FriendsData;
+import eu.findplayers.app.findplayers.Data.MyData;
+import eu.findplayers.app.findplayers.ForLogin.MySingleton;
 import eu.findplayers.app.findplayers.R;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -62,7 +72,8 @@ public class FriendsFragment extends Fragment {
 
         recyclerView =(RecyclerView) getView().findViewById(R.id.recycler_view_friends);
         friends_list = new ArrayList<>();
-        load_data_from_server(id);
+       // load_data_from_server(id);
+        load(id);
 
         gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -71,42 +82,51 @@ public class FriendsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void load_data_from_server(final int id)
+
+
+    private void load(final int id)
     {
-        @SuppressLint("StaticFieldLeak")AsyncTask<Integer, Void,Void> task = new AsyncTask<Integer, Void, Void>() {
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, "http://findplayers.eu/android/friend_list.php", new com.android.volley.Response.Listener<String>() {
             @Override
-            protected Void doInBackground(Integer... integers) {
+            public void onResponse(String response) {
+                //response
+                Log.d("Response", response);
+                try{
+                    JSONArray jsonArray = new JSONArray(response);
 
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url("http://findplayers.eu/android/friend_list.php?id="+id).build();
-
-                try {
-                    Response response = client.newCall(request).execute();
-
-                    JSONArray array = new JSONArray(response.body().string());
-
-                    for (int i=0; i<array.length(); i++)
+                    for (int i=0; i<jsonArray.length(); i++)
                     {
-                        JSONObject object = array.getJSONObject(i);
-
-                        FriendsData data = new FriendsData(object.getString("profile_image"), object.getString("username"),  "info", object.getInt("friend_id"), id);
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        FriendsData data = new FriendsData(jsonObject.getString("profile_image"), jsonObject.getString("username"),  "info", jsonObject.getInt("friend_id"), id);
 
                         friends_list.add(data);
+                        adapter.notifyDataSetChanged();
                     }
 
-                } catch (IOException e) {
+                } catch (JSONException e)
+                {
                     e.printStackTrace();
-                } catch (JSONException e) {
-                    System.out.println("End of content");
                 }
-                return null;
+
             }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ){
             @Override
-            protected void onPostExecute(Void aVoid) {
-                adapter.notifyDataSetChanged();
+            protected Map<String, String> getParams()
+            {
+                String userID = String.valueOf(id);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", userID);
+                return params;
             }
         };
-        task.execute(id);
+        MySingleton.getInstance(getActivity()).addToRequestque(stringRequest);
     }
 
 }

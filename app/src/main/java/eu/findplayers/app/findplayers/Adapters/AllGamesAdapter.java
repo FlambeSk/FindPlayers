@@ -154,12 +154,12 @@ public class AllGamesAdapter extends RecyclerView.Adapter<AllGamesAdapter.ViewHo
                     {
                         new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Oops...")
-                                .setContentText("Already in Profile")
+                                .setContentText("Hra už je v profile")
                                 .show();
                     } else {
                         new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
-                                .setTitleText("Good job!")
-                                .setContentText("Game was Added!")
+                                .setTitleText("Dobrá práca!")
+                                .setContentText("Hra bola pridaná!")
                                 .show();
                     }
 

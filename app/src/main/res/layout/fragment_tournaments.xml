@@ -29,7 +29,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="My tournaments"
+                        android:text="@string/my_tournaments"
                         android:padding="5dp"
                         android:textSize="20sp"
                         android:textColor="#000"/>
@@ -52,7 +52,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Newest tournaments"
+                    android:text="@string/newest_tournaments"
                     android:padding="5dp"
                     android:textSize="20sp"
                     android:textColor="#000"/>
@@ -75,7 +75,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Biggest tournaments"
+                        android:text="@string/biggest_tournaments"
                         android:padding="5dp"
                         android:textSize="20sp"
                         android:textColor="#000"/>
@@ -99,7 +99,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ended tournaments"
+                        android:text="@string/ended_tournaments"
                         android:padding="5dp"
                         android:textSize="20sp"
                         android:textColor="#000"/>

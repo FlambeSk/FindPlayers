@@ -162,8 +162,6 @@ public class Tab4Settings extends Fragment {
                     JSONArray jsonArray = new JSONArray(response);
                     ArrayList<String> ar = new ArrayList<String>();
 
-
-
                     for (int i=0; i<jsonArray.length(); i++)
                     {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);

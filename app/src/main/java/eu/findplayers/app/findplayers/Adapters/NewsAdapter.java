@@ -52,7 +52,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private static Context context;
     private List<NewsData> newsData;
     private int fromID;
-    String profileImage, profileImageString;
+    private String profileImage, profileImageString;
 
     public NewsAdapter(Context context, List<NewsData> newsData)
     {

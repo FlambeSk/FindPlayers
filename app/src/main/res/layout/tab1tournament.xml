@@ -48,7 +48,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:visibility="invisible"
-                    android:text="Join the tournament"/>
+                    android:text="@string/join_tournament"/>
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -57,12 +57,12 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:visibility="invisible"
-                    android:text="Leave the tournament"/>
+                    android:text="@string/leave_tournament"/>
                 <TextView
                     android:id="@+id/tournamentIsFull"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tournament is full of players"
+                    android:text="@string/tournament_is_full_of_players"
                     android:layout_centerInParent="true"
                     android:textColor="#000"
                     android:textStyle="bold"

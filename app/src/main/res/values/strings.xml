@@ -54,4 +54,27 @@
     <string name="First">First</string>
     <string name="second">Second</string>
     <string name="third">Third</string>
+
+    <string name="my_tournaments">My Tournaments</string>
+    <string name="newest_tournaments">Newest Tournaments</string>
+    <string name="biggest_tournaments">Biggest Tournaments</string>
+    <string name="ended_tournaments">Ended Tournaments</string>
+    <string name="tournament_name">Tournament Name</string>
+    <string name="number_of_players">Number of Players</string>
+    <string name="about_tournament">About Tournament</string>
+    <string name="start_on">Start on: </string>
+    <string name="tournament_password">Tournament Password</string>
+    <string name="create">Create</string>
+    <string name="choose">Choose</string>
+    <string name="new_tournament">New Tournament</string>
+    <string name="leave_tournament">Leave the tournament</string>
+    <string name="join_tournament">Join the tournament</string>
+    <string name="tournament_is_full_of_players">Tournament is full of players</string>
+
+    <string name="my_games">My games</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="from">From: </string>
+    <string name="notifications">Notifications</string>
+
 </resources>

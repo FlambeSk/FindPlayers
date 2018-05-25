@@ -77,7 +77,7 @@ public class TournamentsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Tournaments");
+        getActivity().setTitle(getResources().getString(R.string.tournaments));
 
         //Get ID of logged user
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);

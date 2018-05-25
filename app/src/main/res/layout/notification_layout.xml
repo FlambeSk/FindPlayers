@@ -68,7 +68,7 @@
                 android:layout_alignStart="@+id/aboutTextView"
                 android:layout_below="@+id/aboutTextView"
                 android:layout_marginTop="7dp"
-                android:text="From: " />
+                android:text="@string/from" />
 
         </RelativeLayout>
 

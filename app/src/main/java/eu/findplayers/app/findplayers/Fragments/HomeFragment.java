@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     SharedPreferences.Editor editor;
     EditText send_news;
-    String profileName, profileImage, image_for_upload_name, userFriends, userIDString;
+    String profileName, profileImage, image_for_upload_name, userFriends, userIDString ;
     String[] friendsOneByOne;
     Integer userID, friendsSize ;
 
@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Home");
+        getActivity().setTitle(getResources().getString(R.string.home));
 
         profile_image = (ImageView) getActivity().findViewById(R.id.profile_image);
         send_news = (EditText) getActivity().findViewById(R.id.send_news);

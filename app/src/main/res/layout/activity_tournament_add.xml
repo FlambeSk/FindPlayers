@@ -38,7 +38,7 @@
                     android:background="@android:color/transparent"
                     android:drawablePadding="8dp"
                     android:padding="8dp"
-                    android:hint="Tournament name"
+                    android:hint="@string/tournament_name"
                     android:textColorHint="#000000"
                     android:maxLines="1"
                     android:layout_marginTop="40dp"
@@ -76,7 +76,7 @@
                     android:background="@android:color/transparent"
                     android:drawablePadding="8dp"
                     android:padding="8dp"
-                    android:hint="Number of players"
+                    android:hint="@string/number_of_players"
                     android:textColorHint="#000000"
                     android:maxLines="1"
                     android:layout_marginTop="10dp"
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:lines="4"
-                    android:hint="About"
+                    android:hint="@string/about_tournament"
                     android:inputType="textMultiLine"
                     />
 
@@ -103,7 +103,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Start on:"
+                        android:text="@string/start_on"
                         android:textSize="20sp"
                         android:textColor="#000"
                         android:textStyle="bold"
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="Choose" />
+                        android:text="@string/choose" />
                 </RelativeLayout>
 
 
@@ -138,7 +138,7 @@
                     android:background="@android:color/transparent"
                     android:drawablePadding="8dp"
                     android:padding="8dp"
-                    android:hint="Tournament password"
+                    android:hint="@string/tournament_password"
                     android:textColorHint="#000000"
                     android:maxLines="1"
                     android:layout_marginTop="40dp"
@@ -152,7 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="40dp"
-                    android:text="Create"
+                    android:text="@string/create"
                     android:id="@+id/createTournament"
                     android:background="@drawable/button_blue"/>
 
@@ -185,7 +185,7 @@
                 android:layout_toEndOf="@+id/back_arrow"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="New Tournament" />
+                android:text="@string/new_tournament" />
 
         </RelativeLayout>
     </RelativeLayout>

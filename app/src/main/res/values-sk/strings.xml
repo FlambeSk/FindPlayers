@@ -27,7 +27,7 @@
     <string name="comment">Koment</string>
     <string name="like">Like</string>
     <string name="users_owning_a_game">Užívatelia vlastniaci hru</string>
-    <string name="comments">Komenty</string>
+    <string name="comments">Komentáre</string>
     <string name="email_address">Emailová adresa</string>
     <string name="password">Heslo</string>
     <string name="password_again">Heslo znova</string>
@@ -54,4 +54,26 @@
     <string name="First">Prvý</string>
     <string name="second">Druhý</string>
     <string name="third">Tretí</string>
+
+    <string name="my_tournaments">Moje turnaje</string>
+    <string name="newest_tournaments">Najnovšie turnaje</string>
+    <string name="biggest_tournaments">Najväčšie turnaje</string>
+    <string name="ended_tournaments">Ukončené turnaje</string>
+    <string name="tournament_name">Názov turnaja</string>
+    <string name="number_of_players">Počet hráčov</string>
+    <string name="about_tournament">O turnaji</string>
+    <string name="start_on">Začiatok: </string>
+    <string name="tournament_password">Heslo k turnaju</string>
+    <string name="create">Vytvoriť</string>
+    <string name="choose">Vybrať</string>
+    <string name="new_tournament">Nový turnaj</string>
+    <string name="leave_tournament">Opustiť turnaj</string>
+    <string name="join_tournament">Pripojiť sa do turnaja</string>
+    <string name="tournament_is_full_of_players">Turnaj je plný hráčov</string>
+
+    <string name="my_games">Moje hry</string>
+    <string name="edit">Upraviť</string>
+    <string name="save">Uložiť</string>
+    <string name="from">Od: </string>
+    <string name="notifications">Notifikácie</string>
 </resources>
